@@ -1,10 +1,10 @@
-#include <eosio/eosio.hpp>
-#include <eosio/transaction.hpp>
-#include <eosio/name.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/transaction.hpp>
+#include <sysio/name.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
-class [[eosio::contract]] array_tests : public contract {
+class [[sysio::contract]] array_tests : public contract {
    public:
       using contract::contract;
 
@@ -32,7 +32,7 @@ class [[eosio::contract]] array_tests : public contract {
    };
 
    // test inside using std::array
-   [[eosio::action]]
+   [[sysio::action]]
    void testin(std::string message) {
       tests_table _tests(get_self(), get_self().value);
 
@@ -46,39 +46,39 @@ class [[eosio::contract]] array_tests : public contract {
       }
 
       std::array<uint8_t, 32> str2 = str;
-      eosio::cout << "size of std::array str is : " << str.size() << "\n";
+      sysio::cout << "size of std::array str is : " << str.size() << "\n";
       for(int i = 0; i < 32; ++i){
-         eosio::cout << str[i] << " ";
+         sysio::cout << str[i] << " ";
       }
-      eosio::cout << "\n";
+      sysio::cout << "\n";
       for(int i = 0; i < 32; ++i){
-         eosio::cout << str2[i] << " ";
+         sysio::cout << str2[i] << " ";
       }
-      eosio::cout << "\n";
+      sysio::cout << "\n";
       std::array<info, 2> info_arr;
       info_arr[0].age = 20;
       info_arr[0].name = "abc";
       info_arr[1].age = 21;
       info_arr[1].name = "cde";
       for(int i = 0; i < 2; ++i){
-         eosio::cout << info_arr[i].age << " " << info_arr[i].name << "\n";
+         sysio::cout << info_arr[i].age << " " << info_arr[i].name << "\n";
       }
    }
 
    // test parameter  using std::array
    // not supported so far
-   [[eosio::action]]
+   [[sysio::action]]
    void testpa(std::array<int,4> input){
       std::array<int,4> arr = input;
       for(int i = 0; i < 4; ++i){
-         eosio::cout << arr[i] << " ";
+         sysio::cout << arr[i] << " ";
       }
-      eosio::cout << "\n";
+      sysio::cout << "\n";
    }
 
    // test return using std::array, not supported so far
-   [[eosio::action]]
-   // cleos -v push action eosio testre '[[1,2,3,4]]' -p eosio@active
+   [[sysio::action]]
+   // clio -v push action sysio testre '[[1,2,3,4]]' -p sysio@active
    std::array<int,4> testre(std::array<int,4> input){
       std::array<int,4> arr = input;
       for(auto & v : arr) v += 1;
@@ -86,8 +86,8 @@ class [[eosio::contract]] array_tests : public contract {
    }
 
    // test return using std::vector
-   [[eosio::action]]
-   // cleos -v push action eosio testrev '[[1,2,3,4]]' -p eosio@active
+   [[sysio::action]]
+   // clio -v push action sysio testrev '[[1,2,3,4]]' -p sysio@active
    std::vector<int> testrev(std::vector<int> input){
       std::vector<int> vec = input;
       for(auto & v : vec) v += 1;
@@ -95,7 +95,7 @@ class [[eosio::contract]] array_tests : public contract {
    }
 
    // test nested array
-   [[eosio::action]]
+   [[sysio::action]]
    void testne() {
       std::array<tests,2> nest;
       std::array<uint8_t, 32> str = {'a','a','a','a','a','a','a','a',
@@ -108,24 +108,24 @@ class [[eosio::contract]] array_tests : public contract {
       nest[1].id = 2;
       nest[1].str = str;
       for(int i = 0; i < nest.size(); ++i){
-         eosio::cout << nest[i].id << "   " ;
+         sysio::cout << nest[i].id << "   " ;
          for(int j = 0; j < nest[i].str.size(); ++j) {
-            eosio::cout << nest[i].str[j] + i << " ";
+            sysio::cout << nest[i].str[j] + i << " ";
          }
-         eosio::cout << "\n";
+         sysio::cout << "\n";
       }
       std::array<std::array<std::string, 5>, 3> nest2;
       for(int i = 0; i < nest2.size(); ++i){
          for(int j = 0; j < nest2[i].size(); ++j) {
             nest2[i][j] = "test nested ";
-            eosio::cout << nest2[i][j] << " ";
+            sysio::cout << nest2[i][j] << " ";
          }
-         eosio::cout << "\n";
+         sysio::cout << "\n";
       }
    }
 
    // test complex data
-   [[eosio::action]]
+   [[sysio::action]]
    void testcom(name user) {
       require_auth(user);
       tests_table _tests(get_self(), get_self().value);
@@ -141,11 +141,11 @@ class [[eosio::contract]] array_tests : public contract {
       auto it = _tests.begin();
       auto ite = _tests.end();
       while(it != ite){
-         eosio::cout << "id = " << it->id << "\n";
+         sysio::cout << "id = " << it->id << "\n";
          for(int i = 0; i < it->str.size(); ++i) {
-            eosio::cout << it->str[i] << " ";
+            sysio::cout << it->str[i] << " ";
          }
-         eosio::cout << "\n";
+         sysio::cout << "\n";
          ++it;
       }
    }

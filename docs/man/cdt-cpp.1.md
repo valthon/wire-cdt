@@ -147,9 +147,9 @@ execution in Antelope block chain virtual machines.
     
     Use the LLVM representation for assembler and object files
     
-**`--eosio-pp-dir=<string>`**
+**`--sysio-pp-dir=<string>`**
     
-    Set the directory for eosio-pp
+    Set the directory for sysio-pp
     
 **`--fPIC`**
     

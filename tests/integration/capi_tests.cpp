@@ -1,15 +1,15 @@
 #include <boost/test/unit_test.hpp>
-#include <eosio/testing/tester.hpp>
-#include <eosio/chain/abi_serializer.hpp>
+#include <sysio/testing/tester.hpp>
+#include <sysio/chain/abi_serializer.hpp>
 
 #include <fc/variant_object.hpp>
 
 #include <contracts.hpp>
 
-using namespace eosio;
-using namespace eosio::testing;
-using namespace eosio::chain;
-using namespace eosio::testing;
+using namespace sysio;
+using namespace sysio::testing;
+using namespace sysio::chain;
+using namespace sysio::testing;
 using namespace fc;
 
 using mvo = fc::mutable_variant_object;

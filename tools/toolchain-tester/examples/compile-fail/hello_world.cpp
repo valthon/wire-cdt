@@ -1,6 +1,6 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 #include <iostream>
-using namespace eosio;
+using namespace sysio;
 
 CONTRACT hello : public contract {
    public:
@@ -19,5 +19,5 @@ ACTION hello::hi( name nm ) {
 
 ACTION hello::check( name nm ) {
    print_f("Name : %\n", nm);
-   eosio::check(nm == "hello"_n, "check name not equal to `hello`");
+   sysio::check(nm == "hello"_n, "check name not equal to `hello`");
 }

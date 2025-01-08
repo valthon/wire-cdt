@@ -1,27 +1,27 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <string>
 
-#include <eosio/tester.hpp>
-#include <eosio/asset.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/asset.hpp>
 
 using std::string;
 
-using eosio::name;
-using eosio::symbol;
-using eosio::extended_symbol;
-using eosio::asset;
-using eosio::extended_asset;
+using sysio::name;
+using sysio::symbol;
+using sysio::extended_symbol;
+using sysio::asset;
+using sysio::extended_asset;
 
 static constexpr int64_t asset_mask{(1LL << 62) - 1};
 static constexpr int64_t asset_min{-asset_mask}; // -4611686018427387903
 static constexpr int64_t asset_max{ asset_mask}; //  4611686018427387903
 
-// Definitions in `eosio.cdt/libraries/eosio/asset.hpp`
-EOSIO_TEST_BEGIN(asset_type_test)
+// Definitions in `sysio.cdt/libraries/sysio/asset.hpp`
+SYSIO_TEST_BEGIN(asset_type_test)
    static constexpr symbol s0{"A", 0};
    static constexpr symbol s1{"Z", 0};
    static constexpr symbol s2{"AAAAAAA", 0};
@@ -354,15 +354,15 @@ EOSIO_TEST_BEGIN(asset_type_test)
    // friend bool operator>=( const asset&, const asset&)
    CHECK_EQUAL( ( asset{1LL, sym_no_prec} >= asset{0LL, sym_no_prec} ), true )
    CHECK_EQUAL( ( asset{1LL, sym_no_prec} >= asset{1LL, sym_no_prec} ), true )
-EOSIO_TEST_END
+SYSIO_TEST_END
 
-// Definitions in `eosio.cdt/libraries/eosio/asset.hpp`
-EOSIO_TEST_BEGIN(extended_asset_type_test)
+// Definitions in `sysio.cdt/libraries/sysio/asset.hpp`
+SYSIO_TEST_BEGIN(extended_asset_type_test)
    static constexpr symbol sym_no_prec{"SYMBOLL",0};
    static constexpr symbol sym_prec{"SYMBOLL",63};
 
-   static constexpr extended_symbol ext_sym_no_prec{sym_no_prec, name{"eosioaccountj"}};
-   static constexpr extended_symbol ext_sym_prec{sym_prec, name{"eosioaccountj"}};
+   static constexpr extended_symbol ext_sym_no_prec{sym_no_prec, name{"sysioaccountj"}};
+   static constexpr extended_symbol ext_sym_prec{sym_prec, name{"sysioaccountj"}};
 
    // Assets with sym_no_prec
    static const auto a0 = asset{ 0LL, sym_no_prec}; // AKA asset_no_prec
@@ -382,11 +382,11 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
 
    //// extended_asset(int64_t, extended_symbol)
    CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.quantity), (a0) )
-   CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.contract), (name{"eosioaccountj"}) )
+   CHECK_EQUAL( (extended_asset{{},ext_sym_no_prec}.contract), (name{"sysioaccountj"}) )
 
    //// extended_asset(asset, name)
-   CHECK_EQUAL( (extended_asset{a0, name{"eosioaccountj"}}.quantity), (a0) )
-   CHECK_EQUAL( (extended_asset{a0, name{"eosioaccountj"}}.contract), (name{"eosioaccountj"}) )
+   CHECK_EQUAL( (extended_asset{a0, name{"sysioaccountj"}}.quantity), (a0) )
+   CHECK_EQUAL( (extended_asset{a0, name{"sysioaccountj"}}.contract), (name{"sysioaccountj"}) )
 
    // ------------------------------------------
    // extended_symbol get_extended_symbol()const
@@ -457,7 +457,7 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         extended_asset{a0, name{"eosioaccountj"}} + extended_asset{a0, name{"jtnuoccaoisoe"}};
+         extended_asset{a0, name{"sysioaccountj"}} + extended_asset{a0, name{"jtnuoccaoisoe"}};
       })
    )
 
@@ -470,7 +470,7 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         temp += extended_asset{a0, name{"eosioaccountj"}};
+         temp += extended_asset{a0, name{"sysioaccountj"}};
       })
    )
 
@@ -483,7 +483,7 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
 
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         extended_asset{a0, name{"eosioaccountj"}} - extended_asset{a0, name{"jtnuoccaoisoe"}};
+         extended_asset{a0, name{"sysioaccountj"}} - extended_asset{a0, name{"jtnuoccaoisoe"}};
       })
    )
 
@@ -585,16 +585,16 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
 
    // --------------------------------------------------------------------
    // friend bool operator!=(const extended_asset&, const extended_asset&)
-   CHECK_EQUAL( (extended_asset{a0, name{"eosioaccountj"}} != extended_asset{a0, name{"jtnuoccaoisoe"}}), true )
+   CHECK_EQUAL( (extended_asset{a0, name{"sysioaccountj"}} != extended_asset{a0, name{"jtnuoccaoisoe"}}), true )
    CHECK_EQUAL( (extended_asset{a1, {}} != extended_asset{aneg1, {}}), true )
-   CHECK_EQUAL( (extended_asset{a1, {}} != extended_asset{a0, name{"eosioaccountj"}}), true )
+   CHECK_EQUAL( (extended_asset{a1, {}} != extended_asset{a0, name{"sysioaccountj"}}), true )
 
    // -------------------------------------------------------------------
    // friend bool operator<(const extended_asset&, const extended_asset&)
    CHECK_EQUAL( (extended_asset{a0, name{}} < extended_asset{a1, {}}), true )
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} < extended_asset{{}, name{"eosioaccountj"}}};
+         bool b{extended_asset{{}, name{}} < extended_asset{{}, name{"sysioaccountj"}}};
          return b;
       })
    )
@@ -604,7 +604,7 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
    CHECK_EQUAL( (extended_asset{a1, {}} > extended_asset{a0, name{}}), true )
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} > extended_asset{{}, name{"eosioaccountj"}}};
+         bool b{extended_asset{{}, name{}} > extended_asset{{}, name{"sysioaccountj"}}};
          return b;
       })
    )
@@ -614,7 +614,7 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
    CHECK_EQUAL( (extended_asset{a0, name{}} <= extended_asset{a1, {}}), true );
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} <= extended_asset{{}, name{"eosioaccountj"}}};
+         bool b{extended_asset{{}, name{}} <= extended_asset{{}, name{"sysioaccountj"}}};
          return b;
       })
    )
@@ -624,11 +624,11 @@ EOSIO_TEST_BEGIN(extended_asset_type_test)
    CHECK_EQUAL( (extended_asset{a1, {}} >= extended_asset{a0, name{}}), true );
    CHECK_ASSERT( "type mismatch", (
       [&]() {
-         bool b{extended_asset{{}, name{}} >= extended_asset{{}, name{"eosioaccountj"}}};
+         bool b{extended_asset{{}, name{}} >= extended_asset{{}, name{"sysioaccountj"}}};
          return b;
       })
    )
-EOSIO_TEST_END
+SYSIO_TEST_END
 
 int main(int argc, char* argv[]) {
    bool verbose = false;
@@ -637,7 +637,7 @@ int main(int argc, char* argv[]) {
    }
    silence_output(!verbose);
 
-   EOSIO_TEST(asset_type_test);
-   EOSIO_TEST(extended_asset_type_test);
+   SYSIO_TEST(asset_type_test);
+   SYSIO_TEST(extended_asset_type_test);
    return has_failed();
 }

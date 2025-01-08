@@ -1,6 +1,6 @@
 #pragma once
 
-using namespace eosio;
+using namespace sysio;
 
 TABLE code_hash {
    uint64_t                    id;

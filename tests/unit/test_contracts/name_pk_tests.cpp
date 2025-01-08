@@ -1,21 +1,21 @@
 // Verifies that a table with name-typed primary key works
 
-#include <eosio/multi_index.hpp>
-#include <eosio/contract.hpp>
+#include <sysio/multi_index.hpp>
+#include <sysio/contract.hpp>
 
-struct [[eosio::table]] name_table {
-    eosio::name pk;
+struct [[sysio::table]] name_table {
+    sysio::name pk;
     int num;
 
     auto primary_key() const { return pk; }
 };
-using name_table_idx = eosio::multi_index<"name.pk"_n, name_table>;
+using name_table_idx = sysio::multi_index<"name.pk"_n, name_table>;
 
-class [[eosio::contract]] name_pk_tests : public eosio::contract {
+class [[sysio::contract]] name_pk_tests : public sysio::contract {
  public:
-   using eosio::contract::contract;
+   using sysio::contract::contract;
 
-   [[eosio::action]] void write() {
+   [[sysio::action]] void write() {
        name_table_idx table(get_self(), 0);
        table.emplace(get_self(), [](auto& row) {
            row.pk = "alice"_n;
@@ -27,9 +27,9 @@ class [[eosio::contract]] name_pk_tests : public eosio::contract {
        });
    }
 
-   [[eosio::action]] void read() {
+   [[sysio::action]] void read() {
        name_table_idx table(get_self(), 0);
-       eosio::check(table.get("alice"_n).num == 2, "num mismatch");
-       eosio::check(table.get("bob"_n).num == 1, "num mismatch");
+       sysio::check(table.get("alice"_n).num == 2, "num mismatch");
+       sysio::check(table.get("bob"_n).num == 1, "num mismatch");
    }
 };

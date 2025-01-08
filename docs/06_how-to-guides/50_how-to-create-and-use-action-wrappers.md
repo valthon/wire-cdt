@@ -11,7 +11,7 @@ This guide provides instructions to create and use an action wrapper in a smart 
 
 See the following code reference guide for action wrapper:
 
-* [eosio::action_wrapper](../reference/Classes/structeosio_1_1action__wrapper).
+* [sysio::action_wrapper](../reference/Classes/structsysio_1_1action__wrapper).
 
 ## Before you begin
 
@@ -24,9 +24,9 @@ Make sure you have the following prerequisites in place:
 Refer to the following reference implementation for your starting point:
 
 ```cpp
-class [[eosio::contract]] multi_index_example : public contract {
+class [[sysio::contract]] multi_index_example : public contract {
   // ...
-  [[eosio::action]] void mod( name user, uint32_t n );
+  [[sysio::action]] void mod( name user, uint32_t n );
   // ...
 }
 ```
@@ -43,12 +43,12 @@ Complete the following steps to create and use `mod_action` action wrapper for t
 
 ### 1. Define The Action Wrapper
 
-To define an action wrapper for the `mod` action, use the `eosio::action_wrapper` template, with  the first parameter the action name as a `eosio::name` and second parameter as the reference to the action method:
+To define an action wrapper for the `mod` action, use the `sysio::action_wrapper` template, with  the first parameter the action name as a `sysio::name` and second parameter as the reference to the action method:
 
 ```diff
-class [[eosio::contract]] multi_index_example : public contract {
+class [[sysio::contract]] multi_index_example : public contract {
   // ...
-  [[eosio::action]] void mod(name user);
+  [[sysio::action]] void mod(name user);
   // ...
 +  using mod_action = action_wrapper<"mod"_n, &multi_index_example::mod>;
   // ...

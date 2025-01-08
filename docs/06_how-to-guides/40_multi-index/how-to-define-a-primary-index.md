@@ -10,7 +10,7 @@ This guide provides instructions to define a primary index for a multi-index tab
 
 See the following code reference:
 
-* The [`multi-index`](../../reference/Classes/classeosio_1_1multi__index) class.
+* The [`multi-index`](../../reference/Classes/classsysio_1_1multi__index) class.
 
 ## Before you begin
 
@@ -24,11 +24,11 @@ Complete the following steps to define a primary index for the multi-index table
 
 ### 1. Preparation And Initialization
 
-Include the `eosio.hpp` header and use the `using` directive to access the `eosio` namespace.
+Include the `sysio.hpp` header and use the `using` directive to access the `sysio` namespace.
 
   ```cpp
-  #include <eosio/eosio.hpp>
-  using namespace eosio;
+  #include <sysio/sysio.hpp>
+  using namespace sysio;
   ```
 
 ### 2. Define The Table Data Structure
@@ -36,15 +36,15 @@ Include the `eosio.hpp` header and use the `using` directive to access the `eosi
 Define the data structure for the multi-index table.
 
   ```cpp
-    struct [[eosio::table]] test_table {
+    struct [[sysio::table]] test_table {
     };
   ```
 
-Add the data structure data members. Each data member corresponds to a field of the multi-index table. A primary key is required when defining a multi-index table structure, therefore you need to know which is the multi-index table field that is the primary key for your multi-index table. The corresponding data member for the primary key field must store unique values. In this case it is the `test_primary` data member of type `eosio::name`.
+Add the data structure data members. Each data member corresponds to a field of the multi-index table. A primary key is required when defining a multi-index table structure, therefore you need to know which is the multi-index table field that is the primary key for your multi-index table. The corresponding data member for the primary key field must store unique values. In this case it is the `test_primary` data member of type `sysio::name`.
 
   ```diff
     // the data structure which defines each row of the table
-    struct [[eosio::table]] test_table {
+    struct [[sysio::table]] test_table {
   +    // this data member stores a name for each row of the multi-index table
   +    name test_primary;
   +    // additional data stored in table row, e.g. an uint64_t type data
@@ -58,7 +58,7 @@ Add the definition of the primary index for the multi-index table. The primary i
 
   ```diff
     // the data structure which defines each row of the table
-    struct [[eosio::table]] test_table {
+    struct [[sysio::table]] test_table {
       // this data member stores a name for each row of the multi-index table
       name test_primary;
       // additional data stored in table row
@@ -78,11 +78,11 @@ Add the definition of the primary index for the multi-index table. The primary i
 
 ### 4. Define A Multi-Index Type Alias
 
-For ease of use, define a type alias `test_table_t` based on the `eosio::multi_index` template type, parametarized with a random name `"testtaba"` and the `test_table` data structure. The names must adhere to `Antelope` account name restrictions.
+For ease of use, define a type alias `test_table_t` based on the `sysio::multi_index` template type, parametarized with a random name `"testtaba"` and the `test_table` data structure. The names must adhere to `Antelope` account name restrictions.
 
   ```diff
     // the data structure which defines each row of the table
-    struct [[eosio::table]] test_table {
+    struct [[sysio::table]] test_table {
       // this data member stores a name for each row of the multi-index table
       name test_primary;
       // additional data stored in table row
@@ -91,7 +91,7 @@ For ease of use, define a type alias `test_table_t` based on the `eosio::multi_i
       uint64_t primary_key( ) const { return test_primary.value; }
     };
     
-  +  typedef eosio::multi_index<"testtaba"_n, test_table> test_table_t;
+  +  typedef sysio::multi_index<"testtaba"_n, test_table> test_table_t;
   ```
 
 ### 5. Instantiate The Multi-Index Table
@@ -100,7 +100,7 @@ Declare the `testtab` multi-index table as a data member of type `test_table_t`.
 
   ```diff
     // the data structure which defines each row of the table
-    struct [[eosio::table]] test_table {
+    struct [[sysio::table]] test_table {
       // this data member stores a name for each row of the multi-index table
       name test_primary;
       // additional data stored in table row
@@ -109,7 +109,7 @@ Declare the `testtab` multi-index table as a data member of type `test_table_t`.
       uint64_t primary_key( ) const { return test_primary.value; }
     };
     
-    typedef eosio::multi_index<"testtaba"_n, test_table> test_table_t;
+    typedef sysio::multi_index<"testtaba"_n, test_table> test_table_t;
   +  test_table_t testtab;
   ```
 

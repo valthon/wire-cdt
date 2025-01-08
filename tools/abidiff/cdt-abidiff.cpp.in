@@ -9,10 +9,10 @@
 #include "clang/AST/Expr.h"
 #include "clang/Basic/Builtins.h"
 #include "llvm/Support/FileSystem.h"
-#include "eosio/utils.hpp"
-#include "eosio/gen.hpp"
-#include "eosio/whereami/whereami.hpp"
-#include "eosio/abi.hpp"
+#include "sysio/utils.hpp"
+#include "sysio/gen.hpp"
+#include "sysio/whereami/whereami.hpp"
+#include "sysio/abi.hpp"
 
 #include <exception>
 #include <iostream>
@@ -30,8 +30,8 @@
 using namespace clang::tooling;
 using namespace clang::ast_matchers;
 using namespace llvm;
-using namespace eosio;
-using namespace eosio::cdt;
+using namespace sysio;
+using namespace sysio::cdt;
 using jsoncons::json;
 using jsoncons::ojson;
 

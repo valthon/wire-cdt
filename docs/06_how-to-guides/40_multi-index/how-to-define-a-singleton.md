@@ -10,7 +10,7 @@ This guide provides instructions to define a singleton.
 
 See the following code reference:
 
-* The [`singleton`](../../reference/Classes/classeosio_1_1singleton) class.
+* The [`singleton`](../../reference/Classes/classsysio_1_1singleton) class.
 
 ## Before you begin
 
@@ -24,12 +24,12 @@ A singleton uses a single multi-index table to store named objects of various ty
 
 ### 1. Preparation And Initialization
 
-Include the `eosio.hpp` and `singleton.hpp` headers and declare the `eosio` namespace usage
+Include the `sysio.hpp` and `singleton.hpp` headers and declare the `sysio` namespace usage
 
    ```cpp
-   #include <eosio/eosio.hpp>
-   #include <eosio/singleton.hpp>
-   using namespace eosio;
+   #include <sysio/sysio.hpp>
+   #include <sysio/singleton.hpp>
+   using namespace sysio;
    ```
 
 ### 2. Define The Table Data Structure
@@ -37,7 +37,7 @@ Include the `eosio.hpp` and `singleton.hpp` headers and declare the `eosio` name
 Define the data structure for the multi-index table:
 
    ```cpp
-   struct [[eosio::table]] testtable {
+   struct [[sysio::table]] testtable {
       name primary_value;
       uint64_t secondary_value;
    };
@@ -45,14 +45,14 @@ Define the data structure for the multi-index table:
 
 ### 3. Define A Singleton Type Alias
 
-For ease of use, define a type alias `singleton_type` based on the `eosio::singleton` template type, parametarized with a random name `"testtable"` and the `testtable` data structure. The names must adhere to `Antelope` account name restrictions.
+For ease of use, define a type alias `singleton_type` based on the `sysio::singleton` template type, parametarized with a random name `"testtable"` and the `testtable` data structure. The names must adhere to `Antelope` account name restrictions.
 
    ```diff
-   struct [[eosio::table]] testtable {
+   struct [[sysio::table]] testtable {
       name primary_value;
       uint64_t secondary_value;
    };
-   +using singleton_type = eosio::singleton<"testtable"_n, testtable>;
+   +using singleton_type = sysio::singleton<"testtable"_n, testtable>;
    ```
 
 ### 4. Define The Singleton Instance
@@ -60,12 +60,12 @@ For ease of use, define a type alias `singleton_type` based on the `eosio::singl
 Define the singleton table instance as a data member of type `singleton_type`.
 
    ```diff
-   struct [[eosio::table]] testtable {
+   struct [[sysio::table]] testtable {
       name primary_value;
       uint64_t secondary_value;
    };
 
-   using singleton_type = eosio::singleton<"testtable"_n, testtable>;
+   using singleton_type = sysio::singleton<"testtable"_n, testtable>;
    +singleton_type singleton_instance;
    ```
 
@@ -87,11 +87,11 @@ Now you have defined and initialized a singleton as a data member for the smart 
 __singleton_example.hpp__
 
 ```cpp
-#include <eosio/eosio.hpp>
-#include <eosio/singleton.hpp>
-using namespace eosio;
+#include <sysio/sysio.hpp>
+#include <sysio/singleton.hpp>
+using namespace sysio;
 
-class [[eosio::contract]] singleton_example : public contract {
+class [[sysio::contract]] singleton_example : public contract {
    public:
       using contract::contract;
       singleton_example( name receiver, name code, datastream<const char*> ds ) :
@@ -99,18 +99,18 @@ class [[eosio::contract]] singleton_example : public contract {
          singleton_instance(receiver, receiver.value)
          {}
 
-      [[eosio::action]]
+      [[sysio::action]]
       void set( name user, uint64_t value );
-      [[eosio::action]]
+      [[sysio::action]]
       void get( );
 
-      struct [[eosio::table]] testtable {
+      struct [[sysio::table]] testtable {
          name primary_value;
          uint64_t secondary_value;
          uint64_t primary_key() const { return primary_value.value; }
       } testtablerow;
 
-      using singleton_type = eosio::singleton<"testtable"_n, testtable>;
+      using singleton_type = sysio::singleton<"testtable"_n, testtable>;
       singleton_type singleton_instance;
 
       using set_action = action_wrapper<"set"_n, &singleton_example::set>;
@@ -125,23 +125,23 @@ __singleton_example.cpp__
 ```cpp
 #include <singleton_example.hpp>
 
-[[eosio::action]] void singleton_example::set( name user, uint64_t value ) {
+[[sysio::action]] void singleton_example::set( name user, uint64_t value ) {
    auto entry_stored = singleton_instance.get_or_create(user, testtablerow);
    entry_stored.primary_value = user;
    entry_stored.secondary_value = value;
    singleton_instance.set(entry_stored, user);
 }
 
-[[eosio::action]] void singleton_example::get( ) {
+[[sysio::action]] void singleton_example::get( ) {
    if (singleton_instance.exists())
-      eosio::print(
+      sysio::print(
          "Value stored for: ", 
          name{singleton_instance.get().primary_value.value},
          " is ",
          singleton_instance.get().secondary_value,
          "\n");
    else
-      eosio::print("Singleton is empty\n");
+      sysio::print("Singleton is empty\n");
 }
 ```
 

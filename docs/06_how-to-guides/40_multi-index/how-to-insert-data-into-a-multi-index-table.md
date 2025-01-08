@@ -10,7 +10,7 @@ This guide provides instructions to insert data into a multi-index table.
 
 See the following code reference:
 
-* The [`multi-index`](../../reference/Classes/classeosio_1_1multi__index) class.
+* The [`multi-index`](../../reference/Classes/classsysio_1_1multi__index) class.
 * The [`multi-index::find(...)`](../../reference/Modules/group__multiindex#function-find) method.
 * The [`multi-index::emplace(...)`](../../reference/Modules/group__multiindex#function-emplace) method.
 
@@ -19,7 +19,7 @@ See the following code reference:
 Make sure you have the following prerequisites in place:
 
 * An Antelope development environment, for details consult the [Documentation Portal](https://docs.eosnetwork.com/docs/latest/).
-* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `eosio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table.md) to learn how to set it up.
+* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `sysio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table.md) to learn how to set it up.
 
 ## Procedure
 
@@ -30,7 +30,7 @@ Complete the following steps to insert an user object in the `testtab` multi-ind
 Use of the multi-index table iterator to find out if the user object already exists. The targeted user is searched based on its account name.
 
 ```cpp
-[[eosio::action]] void multi_index_example::set( name user ) {
+[[sysio::action]] void multi_index_example::set( name user ) {
   // check if the user already exists
   auto itr = testtab.find(user.value);
 }
@@ -41,7 +41,7 @@ Use of the multi-index table iterator to find out if the user object already exi
 Use the [`emplace`](../../reference/Modules/group__multiindex#function-emplace) method to make the insertion if the user object is not already in the multi-index table. Otherwise print an informational message.
 
 ```diff
-[[eosio::action]] void multi_index_example::set( name user ) {
+[[sysio::action]] void multi_index_example::set( name user ) {
   // check if the user already exists
   auto itr = testtab.find(user.value);
 

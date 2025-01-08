@@ -1,7 +1,7 @@
 #pragma once
-#include <eosio/testing/tester.hpp>
+#include <sysio/testing/tester.hpp>
 
-namespace eosio::testing {
+namespace sysio::testing {
    struct contracts {
       static std::vector<uint8_t> malloc_tests_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../unit/test_contracts/malloc_tests.wasm"); }
       static std::vector<char>    malloc_tests_abi() { return read_abi("${CMAKE_BINARY_DIR}/../unit/test_contracts/malloc_tests.abi"); }
@@ -34,4 +34,4 @@ namespace eosio::testing {
       static std::vector<uint8_t> test_multi_index_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../unit/test_contracts/test_multi_index.wasm"); }
       static std::vector<char>    test_multi_index_abi() { return read_abi("${CMAKE_BINARY_DIR}/../unit/test_contracts/test_multi_index.abi"); }
    };
-} //ns eosio::testing
+} //ns sysio::testing

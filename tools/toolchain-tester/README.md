@@ -53,7 +53,7 @@ Allowable type of expected output are:
     "tests": [
         {
             "expected": {
-                "stderr": "iostreams currently clash with eosio::datastream"
+                "stderr": "iostreams currently clash with sysio::datastream"
             }
         }
     ]
@@ -75,7 +75,7 @@ Allowable type of expected output are:
     "tests": [
         {
             "expected": {
-                "abi": "{\"____comment\": \"This file was generated with eosio-abigen. DO NOT EDIT\",\n\"version\": \"eosio::abi/1.1\",\"types\": [],\"structs\": [..."
+                "abi": "{\"____comment\": \"This file was generated with sysio-abigen. DO NOT EDIT\",\n\"version\": \"sysio::abi/1.1\",\"types\": [],\"structs\": [..."
             }
         }
     ]

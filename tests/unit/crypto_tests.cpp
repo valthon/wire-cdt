@@ -1,17 +1,17 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
-#include <eosio/tester.hpp>
-#include <eosio/crypto.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/crypto.hpp>
 
-using eosio::public_key;
-using eosio::signature;
-using namespace eosio::native;
+using sysio::public_key;
+using sysio::signature;
+using namespace sysio::native;
 
-// Definitions in `eosio.cdt/libraries/eosio/crypto.hpp`
-EOSIO_TEST_BEGIN(public_key_type_test)
+// Definitions in `sysio.cdt/libraries/sysio/crypto.hpp`
+SYSIO_TEST_BEGIN(public_key_type_test)
    // -----------------------------------------------------
    // bool operator==(const public_key&, const public_key&)
    CHECK_EQUAL( (public_key(std::in_place_index<0>, std::array<char, 33>{})  == public_key(std::in_place_index<0>, std::array<char, 33>{})), true  )
@@ -21,10 +21,10 @@ EOSIO_TEST_BEGIN(public_key_type_test)
    // bool operator!=(const public_key&, const public_key&)
    CHECK_EQUAL( (public_key(std::in_place_index<0>, std::array<char, 33>{})  != public_key(std::in_place_index<0>, std::array<char, 33>{})), false )
    CHECK_EQUAL( (public_key(std::in_place_index<0>, std::array<char, 33>{1}) != public_key(std::in_place_index<0>, std::array<char, 33>{})), true  )
-EOSIO_TEST_END
+SYSIO_TEST_END
 
-// Definitions in `eosio.cdt/libraries/eosio/crypto.hpp`
-EOSIO_TEST_BEGIN(signature_type_test)
+// Definitions in `sysio.cdt/libraries/sysio/crypto.hpp`
+SYSIO_TEST_BEGIN(signature_type_test)
    // ---------------------------------------------------
    // bool operator==(const signature&, const signature&)
    CHECK_EQUAL( (signature(std::in_place_index<0>, std::array<char, 65>{})  == signature(std::in_place_index<0>, std::array<char, 65>{})), true  )
@@ -34,7 +34,7 @@ EOSIO_TEST_BEGIN(signature_type_test)
    // bool operator!=(const signature&, const signature&)
    CHECK_EQUAL( (signature(std::in_place_index<0>, std::array<char, 65>{1}) != signature(std::in_place_index<0>, std::array<char, 65>{})), true  )
    CHECK_EQUAL( (signature(std::in_place_index<0>, std::array<char, 65>{})  != signature(std::in_place_index<0>, std::array<char, 65>{})), false )
-EOSIO_TEST_END
+SYSIO_TEST_END
 
 int main(int argc, char* argv[]) {
    bool verbose = false;
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
    }
    silence_output(!verbose);
 
-   EOSIO_TEST(public_key_type_test)
-   EOSIO_TEST(signature_type_test)
+   SYSIO_TEST(public_key_type_test)
+   SYSIO_TEST(signature_type_test)
    return has_failed();
 }

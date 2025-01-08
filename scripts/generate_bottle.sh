@@ -14,7 +14,7 @@ fi
 
 NAME="${PROJECT}-${VERSION}.${MAC_VERSION}.bottle"
 
-mkdir -p ${PROJECT}/${VERSION}/opt/eosio_cdt/lib/cmake
+mkdir -p ${PROJECT}/${VERSION}/opt/sysio_cdt/lib/cmake
 
 PREFIX="${PROJECT}/${VERSION}"
 SPREFIX="\/usr\/local"
@@ -30,13 +30,13 @@ export SSUBPREFIX
 
 hash=`openssl dgst -sha256 ${NAME}.tar.gz | awk 'NF>1{print $NF}'`
 
-echo "class EosioCdt < Formula
+echo "class SysioCdt < Formula
    # typed: false
    # frozen_string_literal: true
 
    homepage \"${URL}\"
    revision 0
-   url \"https://github.com/eosio/eosio.cdt/archive/v${VERSION}.tar.gz\"
+   url \"https://github.com/sysio/sysio.cdt/archive/v${VERSION}.tar.gz\"
    version \"${VERSION}\"
    
    option :universal
@@ -55,13 +55,13 @@ echo "class EosioCdt < Formula
    depends_on arch: :intel
   
    bottle do
-      root_url \"https://github.com/eosio/eosio.cdt/releases/download/v${VERSION}\"
+      root_url \"https://github.com/sysio/sysio.cdt/releases/download/v${VERSION}\"
       sha256 ${MAC_VERSION}: \"${hash}\"
    end
    def install
       raise \"Error, only supporting binary packages at this time\"
    end
 end
-__END__" &> eosio.cdt.rb
+__END__" &> sysio.cdt.rb
 
 rm -r ${PROJECT} || exit 1

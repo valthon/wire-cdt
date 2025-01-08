@@ -9,10 +9,10 @@
 #include "clang/AST/Expr.h"
 #include "clang/Basic/Builtins.h"
 #include "llvm/Support/FileSystem.h"
-#include "eosio/utils.hpp"
-#include "eosio/gen.hpp"
-#include "eosio/whereami/whereami.hpp"
-#include "eosio/abi.hpp"
+#include "sysio/utils.hpp"
+#include "sysio/gen.hpp"
+#include "sysio/whereami/whereami.hpp"
+#include "sysio/abi.hpp"
 
 #include <exception>
 #include <iostream>
@@ -28,8 +28,8 @@
 using namespace clang::tooling;
 using namespace clang::ast_matchers;
 using namespace llvm;
-using namespace eosio;
-using namespace eosio::cdt;
+using namespace sysio;
+using namespace sysio::cdt;
 
 struct project {
    std::string project_name;
@@ -53,8 +53,8 @@ struct project {
                            "   print_f(\"Name : %\\n\",nm);\n"
                            "}";
 
-   const std::string hpp = "#include <eosio/eosio.hpp>\n"
-                           "using namespace eosio;\n\n"
+   const std::string hpp = "#include <sysio/sysio.hpp>\n"
+                           "using namespace sysio;\n\n"
                            "CONTRACT @ : public contract {\n"
                            "   public:\n"
                            "      using contract::contract;\n\n"
@@ -96,7 +96,7 @@ struct project {
                                     "   - run the command 'make'\n\n"
                                     " - After build -\n"
                                     "   - The built smart contract is under the '@' directory in the 'build' directory\n"
-                                    "   - You can then do a 'set contract' action with 'cleos' and point in to the './build/@' directory\n\n"
+                                    "   - You can then do a 'set contract' action with 'clio' and point in to the './build/@' directory\n\n"
                                     " - Additions to CMake should be done to the CMakeLists.txt in the './src' directory and not in the top level CMakeLists.txt";
 
    const std::string readme_bare = " --- @ Project ---\n\n"

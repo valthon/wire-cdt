@@ -25,11 +25,11 @@ struct action_response
   std::pair<int, std::string> status;
 };
 
-class [[eosio::contract]] smrtcontract : public contract {
+class [[sysio::contract]] smrtcontract : public contract {
   public:
      using contract::contract;
 
-     [[eosio::action]]
+     [[sysio::action]]
      action_response checkwithrv( name nm );
 };
 ```
@@ -43,7 +43,7 @@ Complete the following steps to return an instance of `action_response` from the
 3. Use `return` statement and pass as a parameter the instance created and initialized in previous steps.
 
 ```cpp
-[[eosio::action]]
+[[sysio::action]]
 action_response smrtcontract::checkwithrv( name nm ) {
   print_f("Name : %\n", nm);
 
@@ -69,7 +69,7 @@ For a complete example of a smart contract that implements an action which retur
 ## Next Steps
 
 * Compile the smart contract and deploy it to the Antelope testnet or any Antelope based blockchain.
-* Use the `cleos` command to send the `checkwithrv` action to the smart contract and observe the returned value in the `cleos` output.
+* Use the `clio` command to send the `checkwithrv` action to the smart contract and observe the returned value in the `clio` output.
 * Use other means (e.g. programmatically) to send the  `checkwithrv` action to the smart contract and observe the returned value in the action trace.
 
 [[info | Returned values from actions availability]]

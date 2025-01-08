@@ -133,9 +133,9 @@ Installing CDT globally on your system will install the following tools in a loc
 * cdt-ranlib
 * cdt-readelf
 * cdt-strip
-* eosio-pp
-* eosio-wasm2wast
-* eosio-wast2wasm 
+* sysio-pp
+* sysio-wasm2wast
+* sysio-wast2wasm 
 
 It will also install CMake files for CDT accessible within a `cmake/cdt` directory located within your system's `lib` directory.
 #### Manual installation
@@ -165,7 +165,7 @@ sudo apt install ./cdt_*_amd64.deb
 ```sh
 sudo rm -fr /usr/local/cdt
 sudo rm -fr /usr/local/lib/cmake/cdt
-sudo rm /usr/local/bin/eosio-*
+sudo rm /usr/local/bin/sysio-*
 sudo rm /usr/local/bin/cdt-*
 ```
 

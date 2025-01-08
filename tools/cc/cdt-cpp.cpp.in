@@ -12,8 +12,8 @@
 #include "clang/Rewrite/Frontend/Rewriters.h"
 #include "llvm/Support/FileSystem.h"
 
-#include <eosio/abigen.hpp>
-#include <eosio/codegen.hpp>
+#include <sysio/abigen.hpp>
+#include <sysio/codegen.hpp>
 
 #include <iostream>
 #include <sstream>
@@ -36,8 +36,8 @@ using namespace llvm;
 using namespace clang::tooling;
 using namespace clang::ast_matchers;
 using namespace llvm;
-using namespace eosio;
-using namespace eosio::cdt;
+using namespace sysio;
+using namespace sysio::cdt;
 
 void handle_empty_abigen(const std::string& contract_name, bool has_o_opt, bool has_contract_opt);
 
@@ -59,7 +59,7 @@ void generate(const std::vector<std::string>& base_options, std::string input, s
    for (size_t i=0; i < size; i++)
       new_argv[i] = options[i].c_str();
 
-   CommonOptionsParser opts( size, new_argv, EosioCompilerToolCategory, 0 );
+   CommonOptionsParser opts( size, new_argv, SysioCompilerToolCategory, 0 );
    ClangTool ctool(opts.getCompilations(), opts.getSourcePathList());
 
    abigen::get().set_contract_name(contract_name);
@@ -70,7 +70,7 @@ void generate(const std::vector<std::string>& base_options, std::string input, s
    codegen::get().set_warn_action_read_only(warn_action_read_only);
 
    int tool_run = -1;
-   tool_run = ctool.run(newFrontendActionFactory<eosio_abigen_frontend_action>().get());
+   tool_run = ctool.run(newFrontendActionFactory<sysio_abigen_frontend_action>().get());
    if (tool_run != 0) {
       throw std::runtime_error("abigen error");
    }
@@ -83,7 +83,7 @@ void generate(const std::vector<std::string>& base_options, std::string input, s
       handle_empty_abigen(contract_name, has_o_opt, has_contract_opt);
    }
 
-   tool_run = ctool.run(newFrontendActionFactory<eosio_codegen_frontend_action>().get());
+   tool_run = ctool.run(newFrontendActionFactory<sysio_codegen_frontend_action>().get());
    if (tool_run != 0) {
       throw std::runtime_error("codegen error");
    }
@@ -111,7 +111,7 @@ int main(int argc, const char **argv) {
    // fix to show version info without having to have any other arguments
    for (int i=0; i < argc; i++) {
      if (argv[i] == std::string("-v")) {
-       eosio::cdt::environment::exec_subprogram("clang-9", {"-v"});
+       sysio::cdt::environment::exec_subprogram("clang-9", {"-v"});
        return 0;
      }
    }
@@ -119,7 +119,7 @@ int main(int argc, const char **argv) {
    cl::SetVersionPrinter([](llvm::raw_ostream& os) {
          os << COMPILER_NAME << " version " << "${VERSION_FULL}" << "\n";
    });
-   cl::ParseCommandLineOptions(argc, argv, std::string(COMPILER_NAME)+" (Eosio C++ -> WebAssembly compiler)");
+   cl::ParseCommandLineOptions(argc, argv, std::string(COMPILER_NAME)+" (Sysio C++ -> WebAssembly compiler)");
    Options opts = CreateOptions();
 
    std::vector<std::string> outputs;
@@ -166,7 +166,7 @@ int main(int argc, const char **argv) {
 
          new_opts.insert(new_opts.begin(), "-xc++");
 
-         if (!eosio::cdt::environment::exec_subprogram("clang-9", new_opts, false, stdin_redirect)) {
+         if (!sysio::cdt::environment::exec_subprogram("clang-9", new_opts, false, stdin_redirect)) {
             if(stdin_redirect) {
                llvm::sys::fs::remove(*stdin_redirect);
             }
@@ -187,7 +187,7 @@ int main(int argc, const char **argv) {
          new_opts.insert(new_opts.begin(), input);
       }
    
-      if (!eosio::cdt::environment::exec_subprogram("cdt-ld", new_opts)) {
+      if (!sysio::cdt::environment::exec_subprogram("cdt-ld", new_opts)) {
          for (auto input : outputs) {
             llvm::sys::fs::remove(input);
          }
@@ -204,7 +204,7 @@ int main(int argc, const char **argv) {
 #ifdef __APPLE__
       if (opts.native) {
          if (opts.debug) {
-            if (!eosio::cdt::environment::exec_subprogram("dsymutil", std::vector<std::string>{opts.output_fn}, true)) {
+            if (!sysio::cdt::environment::exec_subprogram("dsymutil", std::vector<std::string>{opts.output_fn}, true)) {
                return -1;
             }
          }

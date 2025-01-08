@@ -1,17 +1,17 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
 template<uint64_t Tag>
 struct TaggedNumber {
     uint64_t value;
 };
 
-class [[eosio::contract]] tagged_number_test : public contract {
+class [[sysio::contract]] tagged_number_test : public contract {
   public:
       using contract::contract;
       
-      [[eosio::action]]
+      [[sysio::action]]
       void test(TaggedNumber<"a.tag"_n.value>) {
       }
 };

@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <algorithm>
@@ -9,9 +9,9 @@
 #include <tuple>
 #include <vector>
 
-#include <eosio/tester.hpp>
-#include <eosio/datastream.hpp>
-#include <eosio/serialize.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/datastream.hpp>
+#include <sysio/serialize.hpp>
 
 using std::begin;
 using std::end;
@@ -21,7 +21,7 @@ using std::string;
 using std::tie;
 using std::vector;
 
-using eosio::datastream;
+using sysio::datastream;
 
 struct B {
    const char c{};
@@ -50,8 +50,8 @@ struct D2 : public D1 {
    }
 };
 
-// Definitions in `eosio.cdt/libraries/eosio/serialize.hpp`
-EOSIO_TEST_BEGIN(serialize_test)
+// Definitions in `sysio.cdt/libraries/sysio/serialize.hpp`
+SYSIO_TEST_BEGIN(serialize_test)
    static constexpr uint16_t buffer_size{256};
    char ds_buffer[buffer_size]{}; // Buffer for the datastream to point to
    char ds_expected_buffer[buffer_size]{}; // Buffer to compare `ds_buffer` with
@@ -99,7 +99,7 @@ EOSIO_TEST_BEGIN(serialize_test)
    ds.seekp(0);
    ds >> dd2;
    REQUIRE_EQUAL( d2, dd2 )
-EOSIO_TEST_END
+SYSIO_TEST_END
 
 int main(int argc, char* argv[]) {
    bool verbose = false;
@@ -108,6 +108,6 @@ int main(int argc, char* argv[]) {
    }
    silence_output(!verbose);
 
-   EOSIO_TEST(serialize_test)
+   SYSIO_TEST(serialize_test)
    return has_failed();
 }

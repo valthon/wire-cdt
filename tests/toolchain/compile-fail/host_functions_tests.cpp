@@ -10,57 +10,57 @@ set_privileged  : yes
 send_deferred : yes
 */
 
-#include <eosio/eosio.hpp>
-#include <eosio/contract.hpp>
-#include <eosio/action.hpp>
-#include <eosio/crypto.hpp>
-#include <eosio/fixed_bytes.hpp>
-#include <eosio/privileged.hpp>
-#include <eosio/producer_schedule.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/contract.hpp>
+#include <sysio/action.hpp>
+#include <sysio/crypto.hpp>
+#include <sysio/fixed_bytes.hpp>
+#include <sysio/privileged.hpp>
+#include <sysio/producer_schedule.hpp>
 
-#include <eosio/asset.hpp>
-#include <eosio/binary_extension.hpp>
-#include <eosio/singleton.hpp>
-#include <eosio/system.hpp>
-#include <eosio/time.hpp>
+#include <sysio/asset.hpp>
+#include <sysio/binary_extension.hpp>
+#include <sysio/singleton.hpp>
+#include <sysio/system.hpp>
+#include <sysio/time.hpp>
 
 
-extern "C" __attribute__((eosio_wasm_import)) void set_resource_limit(int64_t, int64_t, int64_t);
-extern "C" __attribute__((eosio_wasm_import)) void set_blockchain_parameters_packed( char* data, uint32_t datalen );
-extern "C" __attribute__((eosio_wasm_import)) uint32_t get_blockchain_parameters_packed( char* data, uint32_t datalen );
+extern "C" __attribute__((sysio_wasm_import)) void set_resource_limit(int64_t, int64_t, int64_t);
+extern "C" __attribute__((sysio_wasm_import)) void set_blockchain_parameters_packed( char* data, uint32_t datalen );
+extern "C" __attribute__((sysio_wasm_import)) uint32_t get_blockchain_parameters_packed( char* data, uint32_t datalen );
 
 typedef uint64_t capi_name;
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_store_i64(uint64_t scope, capi_name table, capi_name payer, uint64_t id,  const void* data, uint32_t len);
-extern "C" __attribute__((eosio_wasm_import)) void db_update_i64(int32_t iterator, capi_name payer, const void* data, uint32_t len);
-extern "C" __attribute__((eosio_wasm_import)) void db_remove_i64(int32_t iterator);
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_idx64_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint64_t* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx64_update(int32_t iterator, capi_name payer, const uint64_t* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx64_remove(int32_t iterator);
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_idx128_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint128_t* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx128_update(int32_t iterator, capi_name payer, const uint128_t* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx128_remove(int32_t iterator);
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_idx256_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint128_t* data, uint32_t data_len );
-extern "C" __attribute__((eosio_wasm_import)) void db_idx256_update(int32_t iterator, capi_name payer, const uint128_t* data, uint32_t data_len);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx256_remove(int32_t iterator);
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_idx_double_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const double* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx_double_update(int32_t iterator, capi_name payer, const double* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx_double_remove(int32_t iterator);
-extern "C" __attribute__((eosio_wasm_import)) int32_t db_idx_long_double_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const long double* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx_long_double_update(int32_t iterator, capi_name payer, const long double* secondary);
-extern "C" __attribute__((eosio_wasm_import)) void db_idx_long_double_remove(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_store_i64(uint64_t scope, capi_name table, capi_name payer, uint64_t id,  const void* data, uint32_t len);
+extern "C" __attribute__((sysio_wasm_import)) void db_update_i64(int32_t iterator, capi_name payer, const void* data, uint32_t len);
+extern "C" __attribute__((sysio_wasm_import)) void db_remove_i64(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_idx64_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint64_t* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx64_update(int32_t iterator, capi_name payer, const uint64_t* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx64_remove(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_idx128_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint128_t* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx128_update(int32_t iterator, capi_name payer, const uint128_t* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx128_remove(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_idx256_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const uint128_t* data, uint32_t data_len );
+extern "C" __attribute__((sysio_wasm_import)) void db_idx256_update(int32_t iterator, capi_name payer, const uint128_t* data, uint32_t data_len);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx256_remove(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_idx_double_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const double* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx_double_update(int32_t iterator, capi_name payer, const double* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx_double_remove(int32_t iterator);
+extern "C" __attribute__((sysio_wasm_import)) int32_t db_idx_long_double_store(uint64_t scope, capi_name table, capi_name payer, uint64_t id, const long double* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx_long_double_update(int32_t iterator, capi_name payer, const long double* secondary);
+extern "C" __attribute__((sysio_wasm_import)) void db_idx_long_double_remove(int32_t iterator);
 
-extern "C" __attribute__((eosio_wasm_import)) void send_deferred(const uint128_t&, uint64_t, const char*, size_t, uint32_t);
-extern "C" __attribute__((eosio_wasm_import)) int64_t set_proposed_producers( char*, uint32_t );
-extern "C" __attribute__((eosio_wasm_import)) int64_t set_proposed_producers_ex( uint64_t producer_data_format, char *producer_data, uint32_t producer_data_size );
-extern "C" __attribute__((eosio_wasm_import)) void set_wasm_parameters_packed(const void*, std::size_t);
-extern "C" __attribute__((eosio_wasm_import)) void set_parameters_packed( const char* params, uint32_t params_size );
+extern "C" __attribute__((sysio_wasm_import)) void send_deferred(const uint128_t&, uint64_t, const char*, size_t, uint32_t);
+extern "C" __attribute__((sysio_wasm_import)) int64_t set_proposed_producers( char*, uint32_t );
+extern "C" __attribute__((sysio_wasm_import)) int64_t set_proposed_producers_ex( uint64_t producer_data_format, char *producer_data, uint32_t producer_data_size );
+extern "C" __attribute__((sysio_wasm_import)) void set_wasm_parameters_packed(const void*, std::size_t);
+extern "C" __attribute__((sysio_wasm_import)) void set_parameters_packed( const char* params, uint32_t params_size );
 
-extern "C" __attribute__((eosio_wasm_import)) void send_inline(char *serialized_action, size_t size);
-extern "C" __attribute__((eosio_wasm_import)) void send_context_free_inline(char *serialized_action, size_t size);
+extern "C" __attribute__((sysio_wasm_import)) void send_inline(char *serialized_action, size_t size);
+extern "C" __attribute__((sysio_wasm_import)) void send_context_free_inline(char *serialized_action, size_t size);
 
-#define ACTION_TYPE  [[eosio::action, eosio::read_only]]
+#define ACTION_TYPE  [[sysio::action, sysio::read_only]]
 
-class [[eosio::contract]] host_functions_tests : public eosio::contract {
+class [[sysio::contract]] host_functions_tests : public sysio::contract {
 public:
    using contract::contract;
     
@@ -69,11 +69,11 @@ public:
       int64_t ram_bytes;
       int64_t net_weight;
       int64_t cpu_weight;
-      get_resource_limits( "eosio"_n, ram_bytes, net_weight,  cpu_weight ) ;
-      eosio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
-      set_resource_limits( "eosio"_n, ram_bytes  , net_weight  ,  cpu_weight );
-      get_resource_limits( "eosio"_n, ram_bytes, net_weight,  cpu_weight ) ;
-      eosio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
+      get_resource_limits( "sysio"_n, ram_bytes, net_weight,  cpu_weight ) ;
+      sysio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
+      set_resource_limits( "sysio"_n, ram_bytes  , net_weight  ,  cpu_weight );
+      get_resource_limits( "sysio"_n, ram_bytes, net_weight,  cpu_weight ) ;
+      sysio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
       return true;
    }
    ACTION_TYPE
@@ -81,26 +81,26 @@ public:
       int64_t ram_bytes;
       int64_t net_weight;
       int64_t cpu_weight;
-      get_resource_limits( "eosio"_n, ram_bytes, net_weight,  cpu_weight ) ;
-      eosio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
-      set_resource_limit( "eosio"_n.value, "ram"_n.value  , ram_bytes );
-      get_resource_limits( "eosio"_n, ram_bytes, net_weight,  cpu_weight ) ;
-      eosio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
+      get_resource_limits( "sysio"_n, ram_bytes, net_weight,  cpu_weight ) ;
+      sysio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
+      set_resource_limit( "sysio"_n.value, "ram"_n.value  , ram_bytes );
+      get_resource_limits( "sysio"_n, ram_bytes, net_weight,  cpu_weight ) ;
+      sysio::cout << "Get resource: ram_bytes=" << ram_bytes << " net_weight=" << net_weight << " cpu_weight=" << cpu_weight << " \n";
       return true;
    }
    ACTION_TYPE
    bool bcpara () {
-      char buf[sizeof(eosio::blockchain_parameters)];
+      char buf[sizeof(sysio::blockchain_parameters)];
       size_t size = get_blockchain_parameters_packed( buf, sizeof(buf) );
-      eosio::cout << "Block chain parameter size : " << size << "\n";
+      sysio::cout << "Block chain parameter size : " << size << "\n";
       set_blockchain_parameters_packed(buf, size); 
       return true;
    }
    ACTION_TYPE
    bool setpriv() {
-      bool ispr = is_privileged("eosio"_n);
-      eosio::cout << "eosio is privileged : " << ispr << "\n";
-      set_privileged("eosio"_n, ispr);      
+      bool ispr = is_privileged("sysio"_n);
+      sysio::cout << "sysio is privileged : " << ispr << "\n";
+      set_privileged("sysio"_n, ispr);      
       return true;
    }
 /*  all tested

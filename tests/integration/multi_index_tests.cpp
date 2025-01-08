@@ -3,12 +3,12 @@
 #include <boost/test/unit_test.hpp>
 #pragma GCC diagnostic pop
 
-#include <eosio/testing/tester.hpp>
+#include <sysio/testing/tester.hpp>
 
 #include <contracts.hpp>
 
-using namespace eosio;
-using namespace eosio::testing;
+using namespace sysio;
+using namespace sysio::testing;
 
 #ifdef NON_VALIDATING_TEST
 #define TESTER tester
@@ -29,8 +29,8 @@ BOOST_FIXTURE_TEST_CASE(main_multi_index_tests, TESTER) { try {
 
    auto check_failure = [this]( action_name a, const char* expected_error_msg ) {
       BOOST_CHECK_EXCEPTION(  push_action( "testapi"_n, a, "testapi"_n, {} ),
-                              eosio_assert_message_exception,
-                              eosio_assert_message_is( expected_error_msg )
+                              sysio_assert_message_exception,
+                              sysio_assert_message_is( expected_error_msg )
       );
    };
 

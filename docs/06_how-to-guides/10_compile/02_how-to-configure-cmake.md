@@ -51,14 +51,14 @@ To create manually the CMake configuration, the template `CMakeLists.txt` in the
 2. In `test.cpp`:
 
    ```c++
-   #include <eosio/eosio.hpp>
-   using namespace eosio;
+   #include <sysio/sysio.hpp>
+   using namespace sysio;
 
-   class [[eosio::contract]] test : public eosio::contract {
+   class [[sysio::contract]] test : public sysio::contract {
    public:
       using contract::contract;
 
-      [[eosio::action]] void testact( name test ) {
+      [[sysio::action]] void testact( name test ) {
       }
    };
    ```
