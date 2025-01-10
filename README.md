@@ -62,10 +62,11 @@ First, ensure that Leap has been built from source (see Leap's [README](https://
 Then, execute the following command in the same terminal session that you will use to build CDT:
 
 ```sh
-export leap_DIR=/path/to/leap/build/lib/cmake/leap
+export sysio_DIR=/path/to/wire-sysio/build/lib/cmake/sysio
 ```
 
 Now you can continue with the steps to build CDT as described. When you run `cmake` make sure that it does not report `leap package not found`. If it does, this means CDT was not able to find a build of Leap at the specified path in `leap_DIR` and will therefore continue without building the integration tests.
+
 
 ### ccache
 
@@ -80,8 +81,8 @@ export CCACHE_DISABLE=1
 **A Warning On Parallel Compilation Jobs (`-j` flag)**: When building C/C++ software often the build is performed in parallel via a command such as `make -j $(nproc)` which uses the number of CPU cores as the number of compilation jobs to perform simultaneously. However, be aware that some compilation units (.cpp files) in CDT are extremely complex and can consume a large amount of memory to compile. If you are running into issues due to amount of memory available on your build host, you may need to reduce the level of parallelization used for the build. For example, instead of `make -j $(nproc)` you can try `make -j2`. Failures due to memory exhaustion will typically but not always manifest as compiler crashes.
 
 ```sh
-git clone --recursive https://github.com/AntelopeIO/cdt
-cd cdt
+git clone --recursive https://github.com/Wire-Network/wire-cdt
+cd wire-cdt
 mkdir build
 cd build
 cmake ..
@@ -92,11 +93,23 @@ The binaries will be located at in the `build/bin` directory. You can export the
 
 If you would prefer to install CDT globally, see the section [Install CDT](#install-cdt) below.
 
-#### Build CDT in debug mode
+
+> [!NOTE]
+> If you wish to build with integration tests, you cmake command would be: 
+> `cmake -Dsysio_DIR=/home/svetla/repos/leap-5-rename/leap/build/lib/cmake/sysio ..`
+>
+
+#### Build CDT in Debug mode
 
 To build CDT in debug mode (with debug symbols) you need to add the following flags to cmake command:
 ```sh
 cmake -DCMAKE_BUILD_TYPE="Debug" -DTOOLS_BUILD_TYPE="Debug" -DLIBS_BUILD_TYPE="Debug" ..
+```
+
+
+### Generate the `.deb`
+```sh
+cd build/packages && bash ./generate_package.sh deb ubuntu-22.04 amd64
 ```
 
 ### Run tests

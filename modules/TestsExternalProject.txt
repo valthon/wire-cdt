@@ -2,6 +2,20 @@ include(ExternalProject)
 find_package(Git REQUIRED)
 include(GNUInstallDirs)
 
+#######################
+# Debugging messages
+#######################
+message(STATUS "===== Debugging Info =====")
+message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMAKE_BINARY_DIR: ${CMAKE_BINARY_DIR}")
+message(STATUS "CMAKE_SOURCE_DIR: ${CMAKE_SOURCE_DIR}")
+message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
+message(STATUS "sysio_DIR: ${sysio_DIR}")
+message(STATUS "LLVM_DIR: ${LLVM_DIR}")
+message(STATUS "BOOST_ROOT: ${BOOST_ROOT}")
+message(STATUS "==========================")
+
 ExternalProject_Add(
   CDTWasmTests
   SOURCE_DIR "${CMAKE_SOURCE_DIR}/tests/unit"
@@ -16,9 +30,9 @@ ExternalProject_Add(
 )
 
 
-find_package(leap QUIET)
+find_package(sysio QUIET)
 
-if (leap_FOUND)
+if (sysio_FOUND)
    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
       set(TEST_BUILD_TYPE "Debug")
    else()
@@ -40,5 +54,5 @@ if (leap_FOUND)
      BUILD_ALWAYS 1
    )
 else()
-   message(STATUS "leap package not found, skipping building integration tests")
+   message(STATUS "wire-sysio package not found, skipping building integration tests")
 endif()
