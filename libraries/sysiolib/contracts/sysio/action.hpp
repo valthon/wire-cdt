@@ -63,7 +63,7 @@ namespace sysio {
        uint8_t vm_version;
 
        CDT_REFLECT(struct_version, code_sequence, code_hash, vm_type, vm_version);
-       EOSLIB_SERIALIZE(code_hash_result, (struct_version)(code_sequence)(code_hash)(vm_type)(vm_version));
+       SYSLIB_SERIALIZE(code_hash_result, (struct_version)(code_sequence)(code_hash)(vm_type)(vm_version));
    };
 
    /**
@@ -85,7 +85,7 @@ namespace sysio {
     *    unsigned long long b; //8
     *    int  c; //4
     *
-    *    EOSLIB_SERIALIZE( dummy_action, (a)(b)(c) )
+    *    SYSLIB_SERIALIZE( dummy_action, (a)(b)(c) )
     *  };
     *  dummy_action msg = unpack_action_data<dummy_action>();
     *  @endcode
@@ -280,7 +280,7 @@ namespace sysio {
          return std::tie( a.actor, a.permission ) < std::tie( b.actor, b.permission );
       }
 
-      EOSLIB_SERIALIZE( permission_level, (actor)(permission) )
+      SYSLIB_SERIALIZE( permission_level, (actor)(permission) )
    };
 
    /**
@@ -373,7 +373,7 @@ namespace sysio {
 
       /// @cond INTERNAL
 
-      EOSLIB_SERIALIZE( action, (account)(name)(authorization)(data) )
+      SYSLIB_SERIALIZE( action, (account)(name)(authorization)(data) )
 
       /// @endcond
 

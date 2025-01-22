@@ -302,7 +302,7 @@ namespace sysio {
       uint64_t value = 0;
 
       CDT_REFLECT(value);
-      EOSLIB_SERIALIZE( name, (value) )
+      SYSLIB_SERIALIZE( name, (value) )
    };
 
    namespace detail {
