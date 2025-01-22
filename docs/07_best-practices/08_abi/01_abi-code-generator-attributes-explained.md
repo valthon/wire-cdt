@@ -23,12 +23,12 @@ void testa( name n ){
 
 struct [[sysio::action]] testa {
    name n;
-   EOSLIB_SERIALIZE( testa, (n) )
+   SYSLIB_SERIALIZE( testa, (n) )
 };
 
 struct __attribute__((sysio_action)) testa {
    name n;
-   EOSLIB_SERIALIZE( testa, (n) )
+   SYSLIB_SERIALIZE( testa, (n) )
 };
 ```
 

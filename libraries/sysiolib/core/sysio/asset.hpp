@@ -381,7 +381,7 @@ namespace sysio {
             printl( buffer, (end-buffer) );
       }
 
-      EOSLIB_SERIALIZE( asset, (amount)(symbol) )
+      SYSLIB_SERIALIZE( asset, (amount)(symbol) )
    };
 
   /**
@@ -532,6 +532,6 @@ namespace sysio {
 
       /// @endcond
 
-      EOSLIB_SERIALIZE( extended_asset, (quantity)(contract) )
+      SYSLIB_SERIALIZE( extended_asset, (quantity)(contract) )
    };
 }

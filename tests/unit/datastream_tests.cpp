@@ -53,7 +53,7 @@ struct be_test {
    be_test() : val{42} {}
    be_test(int i) : val{i} {}
    int val;
-   EOSLIB_SERIALIZE( be_test, (val) )
+   SYSLIB_SERIALIZE( be_test, (val) )
 };
 
 // Definitions in `sysio.cdt/libraries/sysio/datastream.hpp`
