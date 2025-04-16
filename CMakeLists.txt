@@ -77,11 +77,11 @@ configure_file(${CMAKE_SOURCE_DIR}/scripts/ricardeos/ricardeos.py ${CMAKE_BINARY
 install(FILES ${CMAKE_BINARY_DIR}/scripts/ricardeos.py DESTINATION ${CDT_INSTALL_PREFIX}/scripts)
 
 # section for package construction
-set(VENDOR "EOSNetworkFoundation")
+set(VENDOR "WireNetwork")
 set(PROJECT_NAME "cdt")
-set(DESC "Toolchain and supporting tools to facilitate C/C++ development of contracts for Antelope blockchains")
-set(URL "https://github.com/AntelopeIO/cdt")
-set(EMAIL "support@eosnetwork.com")
+set(DESC "Toolchain and supporting tools to facilitate C/C++ development of contracts for Wire blockchains")
+set(URL "https://github.com/Wire-Network/wire-cdt")
+set(EMAIL "support@wire.network")
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_package.sh.in ${CMAKE_BINARY_DIR}/packages/generate_package.sh @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_deb.sh ${CMAKE_BINARY_DIR}/packages/generate_deb.sh COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_bottle.sh ${CMAKE_BINARY_DIR}/packages/generate_bottle.sh COPYONLY)
@@ -94,10 +94,27 @@ configure_file(${CMAKE_SOURCE_DIR}/libraries/boost/boost.license ${CMAKE_BINARY_
 configure_file(${CMAKE_SOURCE_DIR}/libraries/meta_refl/LICENSE ${CMAKE_BINARY_DIR}/licenses/meta_refl.license COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/tools/external/wabt/LICENSE ${CMAKE_BINARY_DIR}/licenses/wabt.license COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/tools/jsoncons/LICENSE ${CMAKE_BINARY_DIR}/licenses/jsoncons.license COPYONLY)
-configure_file(${CMAKE_SOURCE_DIR}/LICENSE ${CMAKE_BINARY_DIR}/licenses/cdt.license COPYONLY)
+configure_file(${CMAKE_SOURCE_DIR}/LICENSE.md ${CMAKE_BINARY_DIR}/licenses/cdt.license COPYONLY)
 
 include(modules/TestsExternalProject.txt)
 
 include(CTest)
 enable_testing()
 add_subdirectory(tests)
+
+
+set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+set(CPACK_PACKAGE_VENDOR "${VENDOR}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${DESC}")
+set(CPACK_PACKAGE_VERSION "${VERSION_FULL}")
+set(CPACK_PACKAGE_CONTACT "${EMAIL}")
+
+# Optionally specify license file, URL, etc.
+# set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+# set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
+# set(CPACK_PACKAGE_INSTALL_DIRECTORY "CDT-${VERSION_FULL}")
+
+# Define the package generators, for example, TGZ, DEB, and RPM:
+set(CPACK_GENERATOR "DEB")
+
+include(CPack)

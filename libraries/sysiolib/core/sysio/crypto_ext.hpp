@@ -367,7 +367,7 @@ namespace sysio {
     *  @param result_len - size of result 
     *  @return -1 if there is an error otherwise 0
     */
-   inline int32_t blake2_f( uint32_t rounds, const char* state, uint32_t state_len, const char* msg, uint32_t msg_len, 
+   inline int32_t blake2_f( uint32_t rounds, const char* state, uint32_t state_len, const char* msg, uint32_t msg_len,
                      const char* t0_offset, uint32_t t0_len, const char* t1_offset, uint32_t t1_len, int32_t final, char* result, uint32_t result_len) {
       return internal_use_do_not_use::blake2_f( rounds, state, state_len, msg, msg_len, t0_offset, t0_len, t1_offset, t1_len, final, result, result_len);
    }

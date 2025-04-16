@@ -54,5 +54,5 @@ if (sysio_FOUND)
      BUILD_ALWAYS 1
    )
 else()
-   message(STATUS "wire-sysio package not found, skipping building integration tests")
+   message(STATUS "sysio package not found, skipping building integration tests")
 endif()
