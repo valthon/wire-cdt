@@ -1,7 +1,7 @@
-#include <eosio/eosio.hpp>
-#include <eosio/asset.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/asset.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
 CONTRACT transfer_contract : public contract {
    public:

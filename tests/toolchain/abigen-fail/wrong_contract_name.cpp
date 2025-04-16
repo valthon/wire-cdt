@@ -1,5 +1,5 @@
-#include <eosio/eosio.hpp>
-using namespace eosio;
+#include <sysio/sysio.hpp>
+using namespace sysio;
 
 CONTRACT hello : public contract {
    public:

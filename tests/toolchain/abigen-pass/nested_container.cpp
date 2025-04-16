@@ -1,20 +1,20 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 #include <tuple>
 #include <vector>
 
-using namespace eosio;
+using namespace sysio;
 using std::map;
 using std::string;
 using std::tuple;
 using std::vector;
 
-class [[eosio::contract]] nested_container : public contract {
+class [[sysio::contract]] nested_container : public contract {
 public:
    using contract::contract;
 
-    [[eosio::action]] 
+    [[sysio::action]] 
     void map2map(map<string, string> m, map<string, map<string, string>> m2m) {}
 
-    [[eosio::action]]
+    [[sysio::action]]
     void settuple2(name user, const tuple  <int, double, string, vector<int> >& tp2) {}
 };

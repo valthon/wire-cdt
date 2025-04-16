@@ -10,7 +10,7 @@ This guide provides instructions to to delete data from a multi-index table.
 
 See the following code reference:
 
-* The [`multi-index`](../../classeosio_1_1multi__index) class.
+* The [`multi-index`](../../classsysio_1_1multi__index) class.
 * The [`multi-index::find(...)`](../../group__multiindex#function-find) method.
 * The [`multi-index::erase(...)`](../../group__multiindex/#function-erase) method.
 
@@ -19,7 +19,7 @@ See the following code reference:
 Make sure you have the following prerequisites in place:
 
 * An Antelope development environment, for details consult the [Get Started Guide](https://docs.eosnetwork.com/docs/latest/getting-started/),
-* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `eosio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table.md) to learn how to set it up.
+* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `sysio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table.md) to learn how to set it up.
 
 ## Procedure
 
@@ -30,7 +30,7 @@ Complete the following steps to implement a `del` action which deletes an user o
 Use the multi-index [`find(...)`](../../group__multiindex#function-find) method to locate the user object you want to delete. The targeted user is searched based on its account name.
 
 ```cpp
-[[eosio::action]] void multi_index_example::del( name user ) {
+[[sysio::action]] void multi_index_example::del( name user ) {
   // check if the user already exists
   auto itr = testtab.find(user.value);
 }
@@ -41,7 +41,7 @@ Use the multi-index [`find(...)`](../../group__multiindex#function-find) method 
 Check to see if the user exists and use [`erase`(...)](../../group__multiindex/#function-erase) method to delete the row from table. Otherwise print an informational message and return.
 
 ```diff
-[[eosio::action]] void multi_index_example::del( name user ) {
+[[sysio::action]] void multi_index_example::del( name user ) {
   // check if the user already exists
   auto itr = testtab.find(user.value);
 +  if ( itr == testtab.end() ) {

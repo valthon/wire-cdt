@@ -1,15 +1,15 @@
-#include <eosio/eosio.hpp>
-using namespace eosio;
+#include <sysio/sysio.hpp>
+using namespace sysio;
 
-class [[eosio::contract]] hello : public contract {
+class [[sysio::contract]] hello : public contract {
    public:
       using contract::contract;
 
-      [[eosio::action]] 
+      [[sysio::action]] 
       void hi( name nm );
-      [[eosio::action]] 
+      [[sysio::action]] 
       void check( name nm );
-      [[eosio::action]]
+      [[sysio::action]]
       std::pair<int, std::string> checkwithrv( name nm );
 
       using hi_action = action_wrapper<"hi"_n, &hello::hi>;

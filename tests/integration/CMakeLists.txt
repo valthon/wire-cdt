@@ -4,12 +4,12 @@ set(EOSIO_VERSION_MIN "3.1")
 set(EOSIO_VERSION_SOFT_MAX "3.1")
 #set(EOSIO_VERSION_HARD_MAX "")
 
-find_package(leap)
+find_package(wire_sysio)
 
 find_path(GMP_INCLUDE_DIR NAMES gmp.h)
 find_library(GMP_LIBRARY gmp)
 
-### Check the version of eosio
+### Check the version of sysio
 set(VERSION_MATCH_ERROR_MSG "")
 EOSIO_CHECK_VERSION(VERSION_OUTPUT "${EOSIO_VERSION}"
                                    "${EOSIO_VERSION_MIN}"
@@ -33,7 +33,7 @@ include_directories(${CMAKE_BINARY_DIR})
 
 file(GLOB INT_TESTS "*.cpp" "*.hpp")
 
-add_eosio_test_executable( integration_tests ${INT_TESTS} )
+add_sysio_test_executable( integration_tests ${INT_TESTS} )
 
 target_link_libraries( integration_tests ${GMP_LIBRARY} )
 

@@ -1,7 +1,7 @@
-#include <eosio/eosio.hpp>
-#include <eosio/crypto.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/crypto.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
 template <typename T, typename U>
 struct baz {
@@ -46,7 +46,7 @@ struct foo {
 };
 
 
-CONTRACT template_gen_regression : public eosio::contract {
+CONTRACT template_gen_regression : public sysio::contract {
    public:
       using contract::contract;
 

@@ -19,7 +19,7 @@ Follow the following steps to compile your contract.
 
     ```sh
     mkdir build
-    cd build
+    cd build`
     cdt-cpp ../src/hello.cpp -o hello.wasm -I ../include/
     ```
 

@@ -1,18 +1,18 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
-#include <eosio/tester.hpp>
-#include <eosio/binary_extension.hpp>
-#include <eosio/print.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/binary_extension.hpp>
+#include <sysio/print.hpp>
 
 using std::in_place;
 using std::move;
 
-using eosio::binary_extension;
+using sysio::binary_extension;
 
-// Definitions in `eosio.cdt/libraries/eosio/binary_extension.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/binary_extension.hpp`
 EOSIO_TEST_BEGIN(binary_extension_test)
    //// constexpr binary_extension()
    // constexpr bool has_value()const

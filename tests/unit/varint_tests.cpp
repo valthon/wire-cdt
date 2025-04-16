@@ -1,19 +1,19 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <limits>
 
-#include <eosio/tester.hpp>
-#include <eosio/datastream.hpp>
-#include <eosio/varint.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/datastream.hpp>
+#include <sysio/varint.hpp>
 
 using std::numeric_limits;
 
-using eosio::datastream;
-using eosio::unsigned_int;
-using eosio::signed_int;
+using sysio::datastream;
+using sysio::unsigned_int;
+using sysio::signed_int;
 
 static constexpr uint32_t u32min = numeric_limits<uint32_t>::min(); // 0
 static constexpr uint32_t u32max = numeric_limits<uint32_t>::max(); // 4294967295
@@ -21,7 +21,7 @@ static constexpr uint32_t u32max = numeric_limits<uint32_t>::max(); // 429496729
 static constexpr int32_t i32min = numeric_limits<int32_t>::min(); // -2147483648
 static constexpr int32_t i32max = numeric_limits<int32_t>::max(); //  2147483647
 
-// Defined in `eosio.cdt/libraries/eosio/varint.hpp`
+// Defined in `sysio.cdt/libraries/sysio/varint.hpp`
 EOSIO_TEST_BEGIN(unsigned_int_type_test)
    //// unsigned_int(uint32_t)
    CHECK_EQUAL( unsigned_int{}.value, 0 )
@@ -123,7 +123,7 @@ EOSIO_TEST_BEGIN(unsigned_int_type_test)
    CHECK_EQUAL( cui, ui)
 EOSIO_TEST_END
 
-// Defined in `eosio.cdt/libraries/eosio/varint.hpp`
+// Defined in `sysio.cdt/libraries/sysio/varint.hpp`
 EOSIO_TEST_BEGIN(signed_int_type_test)
    //// signed_int(uint32_t)
    CHECK_EQUAL( signed_int{}.value, 0 )

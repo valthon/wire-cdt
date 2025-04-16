@@ -1,25 +1,25 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
-#include <eosio/tester.hpp>
-#include <eosio/datastream.hpp>
-#include <eosio/string.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/datastream.hpp>
+#include <sysio/string.hpp>
 
 using std::fill;
 using std::move;
 
-using eosio::datastream;
-using eosio::string;
+using sysio::datastream;
+using sysio::string;
 
-// Definitions found in `eosio.cdt/libraries/eosiolib/core/eosio/string.hpp`
+// Definitions found in `sysio.cdt/libraries/sysiolib/core/sysio/string.hpp`
 
 EOSIO_TEST_BEGIN(string_test_ins_null)
    string eostr{"abcdefg"};
    const char* null_man{nullptr};
-   CHECK_ASSERT( "eosio::string::insert", [&]() {eostr.insert(0, null_man, 1);} )
-   CHECK_ASSERT( "eosio::string::insert", [&]() {eostr.insert(-1, "ooo", 1);} )
+   CHECK_ASSERT( "sysio::string::insert", [&]() {eostr.insert(0, null_man, 1);} )
+   CHECK_ASSERT( "sysio::string::insert", [&]() {eostr.insert(-1, "ooo", 1);} )
 EOSIO_TEST_END
 
 //// string& insert(const size_t pos, const string& str)
@@ -89,7 +89,7 @@ EOSIO_TEST_END
 EOSIO_TEST_BEGIN(string_test_ins_neg_index_1)
    string eostr{"abcdefg"};
    const string str{"ooo"};
-   CHECK_ASSERT( "eosio::string::insert", [&]() {eostr.insert(-1, str);} )
+   CHECK_ASSERT( "sysio::string::insert", [&]() {eostr.insert(-1, str);} )
 EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_ins_op_pl_1)
@@ -171,7 +171,7 @@ EOSIO_TEST_END
 EOSIO_TEST_BEGIN(string_test_ins_neg_index_2)
    string eostr{"abcdefg"};
    string str{"ooo"};
-   CHECK_ASSERT( "eosio::string::insert", [&]() {eostr.insert(-1, str);} )
+   CHECK_ASSERT( "sysio::string::insert", [&]() {eostr.insert(-1, str);} )
 EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_ins_capacity)
@@ -274,7 +274,7 @@ EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_erase_neg_index_1)
    string eostr{"abcdefg"};
-   CHECK_ASSERT( "eosio::string::erase", [&]() {eostr.erase(-1, 1);} )
+   CHECK_ASSERT( "sysio::string::erase", [&]() {eostr.erase(-1, 1);} )
 EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_erase_op_pl)
@@ -387,7 +387,7 @@ EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_erase_neg_index_2)
    string eostr{"abcdefg"};
-   CHECK_ASSERT( "eosio::string::erase", [&]() {eostr.erase(-1, 1);} )
+   CHECK_ASSERT( "sysio::string::erase", [&]() {eostr.erase(-1, 1);} )
 EOSIO_TEST_END
 
 //// string& append(const char* str)
@@ -412,7 +412,7 @@ EOSIO_TEST_END
 EOSIO_TEST_BEGIN(string_test_append_null)
    string eostr{"abcdefg"};
    const char* null_man{nullptr};
-   CHECK_ASSERT( "eosio::string::append", [&]() {eostr.append(null_man);} )
+   CHECK_ASSERT( "sysio::string::append", [&]() {eostr.append(null_man);} )
 EOSIO_TEST_END
 
 //// string& append(const string& str)
@@ -534,7 +534,7 @@ EOSIO_TEST_BEGIN(string_test_append_op_pl_4)
    CHECK_EQUAL( strcmp(eostr0.c_str(), "abcdef"), 0 )
 EOSIO_TEST_END
 
-//// inline void print(eosio::string str)
+//// inline void print(sysio::string str)
 EOSIO_TEST_BEGIN(string_test_print)
    const string eostr0{""};
    const string eostr1{"abc"};

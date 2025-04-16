@@ -47,7 +47,7 @@ namespace debug {
         account_name to;
         uint64_t amount;
         void print() const {
-            eosio::print("Foo from ", eosio::name(from), " to ", eosio::name(to), " with amount ", amount, "\n");
+            sysio::print("Foo from ", sysio::name(from), " to ", sysio::name(to), " with amount ", amount, "\n");
         }
     };
 }
@@ -61,17 +61,17 @@ extern "C" {
 
     void apply( uint64_t code, uint64_t action ) {
         if (code == N(debug)) {
-            eosio::print("Code is debug\n");
+            sysio::print("Code is debug\n");
             if (action == N(foo)) {
-                 eosio::print("Action is foo\n");
-                debug::foo f = eosio::unpack_action_data<debug::foo>();
+                 sysio::print("Action is foo\n");
+                debug::foo f = sysio::unpack_action_data<debug::foo>();
                if (f.amount >= 100) {
-                    eosio::print("Amount is larger or equal than 100\n");
+                    sysio::print("Amount is larger or equal than 100\n");
                 } else {
-                    eosio::print("Amount is smaller than 100\n");
-                    eosio::print("Increase amount by 10\n");
+                    sysio::print("Amount is smaller than 100\n");
+                    sysio::print("Increase amount by 10\n");
                     f.amount += 10;
-                    eosio::print(f);
+                    sysio::print(f);
                 }
             }
         }

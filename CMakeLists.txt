@@ -97,3 +97,20 @@ include(modules/TestsExternalProject.txt)
 include(CTest)
 enable_testing()
 add_subdirectory(tests)
+
+
+set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+set(CPACK_PACKAGE_VENDOR "${VENDOR}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${DESC}")
+set(CPACK_PACKAGE_VERSION "${VERSION_FULL}")
+set(CPACK_PACKAGE_CONTACT "${EMAIL}")
+
+# Optionally specify license file, URL, etc.
+# set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+# set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_SOURCE_DIR}/README.md")
+# set(CPACK_PACKAGE_INSTALL_DIRECTORY "CDT-${VERSION_FULL}")
+
+# Define the package generators, for example, TGZ, DEB, and RPM:
+set(CPACK_GENERATOR "DEB")
+
+include(CPack)

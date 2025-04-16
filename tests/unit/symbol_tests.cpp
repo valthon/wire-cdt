@@ -1,26 +1,26 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <limits>
 #include <string>
 
-#include <eosio/tester.hpp>
-#include <eosio/symbol.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/symbol.hpp>
 
 using std::numeric_limits;
 using std::string;
 
-using eosio::name;
-using eosio::symbol_code;
-using eosio::symbol;
-using eosio::extended_symbol;
+using sysio::name;
+using sysio::symbol_code;
+using sysio::symbol;
+using sysio::extended_symbol;
 
 static constexpr uint64_t u64min = numeric_limits<uint64_t>::min(); // 0ULL
 static constexpr uint64_t u64max = numeric_limits<uint64_t>::max(); // 18446744073709551615ULL
 
-// Definitions in `eosio.cdt/libraries/eosio/symbol.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/symbol.hpp`
 EOSIO_TEST_BEGIN(symbol_code_type_test)
    //// constexpr symbol_code()
    // constexpr uint64_t raw()const
@@ -119,7 +119,7 @@ EOSIO_TEST_BEGIN(symbol_code_type_test)
    CHECK_EQUAL( symbol_code{} < symbol_code{"ZZZZZZZ"}, true )
 EOSIO_TEST_END
 
-// Definitions in `eosio.cdt/libraries/eosio/symbol.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/symbol.hpp`
 EOSIO_TEST_BEGIN(symbol_type_test)
    static constexpr symbol_code sc0{"A"};
    static constexpr symbol_code sc1{"Z"};
@@ -219,7 +219,7 @@ EOSIO_TEST_BEGIN(symbol_type_test)
    CHECK_EQUAL( (symbol{} < symbol{sc3, 0}), true )
 EOSIO_TEST_END
 
-// Definitions in `eosio.cdt/libraries/eosio/symbol.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/symbol.hpp`
 EOSIO_TEST_BEGIN(extended_symbol_type_test)
    static constexpr name n0{"1"};
    static constexpr name n1{"5"};

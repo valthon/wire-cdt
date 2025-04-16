@@ -10,7 +10,7 @@ This guide provides instructions to iterate and retrieve data from a multi-index
 
 See the following code reference:
 
-* The [`multi-index`](../../classeosio_1_1multi__index) class.
+* The [`multi-index`](../../classsysio_1_1multi__index) class.
 * The [`multi-index::find(...)`](../../group__multiindex#function-find) method.
 
 ## Before you begin
@@ -18,7 +18,7 @@ See the following code reference:
 Make sure you have the following prerequisites in place:
 
 * An Antelope development environment, for details consult the [Get Started Guide](https://docs.eosnetwork.com/docs/latest/getting-started/),
-* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `eosio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table) to learn how to set it up.
+* A multi-index `testab` table instance which stores `user` objects indexed by the primary key which is of type `sysio::name`. Consult the section [How to instantiate a multi-index table](./how-to-instantiate-a-multi-index-table) to learn how to set it up.
 
 ## Procedure
 
@@ -29,13 +29,13 @@ Complete the following steps to iterate, retrieve and print data from the `testt
 Add a `print` action to the `testtab` multi-index table. The `print` action takes an account name as a parameter.
 
 ```cpp
-[[eosio::action]] void print( name user );
+[[sysio::action]] void print( name user );
 ```
 
 Optionally, for ease of use add the action wrapper definition as well.
 
 ```diff
-[[eosio::action]] void print( name user );
+[[sysio::action]] void print( name user );
 
 +using print_action = action_wrapper<"print"_n, &multi_index_example::print>;
 ```
@@ -45,7 +45,7 @@ Optionally, for ease of use add the action wrapper definition as well.
 Search for the `user` name in the multi-index table using the primary index. If found, print out the value of field `datum`. Otherwise raise an error with a custom message. In the contract definition add the following implementation for `print` action:
 
 ```cpp
-  [[eosio::action]] void multi_index_example::print( name user ) {
+  [[sysio::action]] void multi_index_example::print( name user ) {
     // searches for the row that corresponds to the user parameter
     auto itr = testtab.find(user.value);
     
@@ -53,7 +53,7 @@ Search for the `user` name in the multi-index table using the primary index. If 
     check( itr != testtab.end(), "user does not exist in table" );
 
     // prints the test_primary and datum fields stored for user parameter
-    eosio::print_f("Test Table : {%, %}\n", itr->test_primary, itr->datum);
+    sysio::print_f("Test Table : {%, %}\n", itr->test_primary, itr->datum);
 }
 ```
 
@@ -64,11 +64,11 @@ The full definition and implementation files for the contract should look like t
 __multi_index_example.hpp__
 
 ```cpp
-#include <eosio/eosio.hpp>
-using namespace eosio;
+#include <sysio/sysio.hpp>
+using namespace sysio;
 
 // multi-index example contract class
-class [[eosio::contract]] multi_index_example : public contract {
+class [[sysio::contract]] multi_index_example : public contract {
    public:
       using contract::contract;
 
@@ -82,7 +82,7 @@ class [[eosio::contract]] multi_index_example : public contract {
 
       // the row structure of the multi-index table, that is, each row of the table
       // will contain an instance of this type of structure
-      struct [[eosio::table]] test_table {
+      struct [[sysio::table]] test_table {
         // this data member stores a name for each row of the multi-index table
         name test_primary;
         // additional data stored in table row
@@ -94,13 +94,13 @@ class [[eosio::contract]] multi_index_example : public contract {
       // the multi-index type definition, for ease of use define a type alias `test_table_t`, 
       // based on the multi_index template type, parametarized with a random name and 
       // the test_table data structure
-      typedef eosio::multi_index<"testtaba"_n, test_table> test_table_t;
+      typedef sysio::multi_index<"testtaba"_n, test_table> test_table_t;
 
       // the multi-index table instance declared as a data member of type test_table_t
       test_table_t testtab;
 
-      [[eosio::action]] void set( name user );
-      [[eosio::action]] void print( name user );
+      [[sysio::action]] void set( name user );
+      [[sysio::action]] void print( name user );
 
       using set_action = action_wrapper<"set"_n, &multi_index_example::set>;
       using print_action = action_wrapper<"print"_n, &multi_index_example::print>;
@@ -112,7 +112,7 @@ __multi_index_example.cpp__
 ```cpp
 #include <multi_index_example.hpp>
 
-[[eosio::action]] void multi_index_example::set( name user ) {
+[[sysio::action]] void multi_index_example::set( name user ) {
   // check if the user already exists
   auto itr = testtab.find(user.value);
 
@@ -126,7 +126,7 @@ __multi_index_example.cpp__
   }
 }
 
-[[eosio::action]] void multi_index_example::print( name user ) {
+[[sysio::action]] void multi_index_example::print( name user ) {
   // searches for the row that corresponds to the user parameter
   auto itr = testtab.find(user.value);
   
@@ -134,7 +134,7 @@ __multi_index_example.cpp__
   check( itr != testtab.end(), "user does not exist in table" );
 
   // prints the test_primary and datum fields stored for user parameter
-  eosio::print_f("Test Table : {%, %}\n", itr->test_primary, itr->datum);
+  sysio::print_f("Test Table : {%, %}\n", itr->test_primary, itr->datum);
 }
 ```
 

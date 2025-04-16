@@ -1,19 +1,19 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <string>
 
-#include <eosio/eosio.hpp>
-#include <eosio/tester.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/tester.hpp>
 
 using std::move;
 using std::string;
 
-using eosio::check;
+using sysio::check;
 
-// Definitions in `eosio.cdt/libraries/eosiolib/system.hpp`
+// Definitions in `sysio.cdt/libraries/sysiolib/system.hpp`
 EOSIO_TEST_BEGIN(system_test)
    // ------------------------------------
    // inline void check(bool, const char*)

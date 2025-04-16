@@ -1,4 +1,4 @@
-#include <eosio/transaction.h>
+#include <sysio/transaction.h>
 #include <stddef.h>
 
 void test_transaction( void ) {

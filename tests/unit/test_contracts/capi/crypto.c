@@ -1,4 +1,4 @@
-#include <eosio/crypto.h>
+#include <sysio/crypto.h>
 #include <stddef.h>
 
 void test_crypto( void ) {

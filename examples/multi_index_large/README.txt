@@ -19,7 +19,7 @@
    - The built smart contract is in the 'build' directory
    - You can then do a 'set contract' action with 'cleos' and point to the 'build' directory
 
-cleos create account eosio testtaba your_public_key
+cleos create account sysio testtaba your_public_key
 cleos set contract testtaba multi_index_large_wasm_directory multi_index_large.wasm multi_index_large.abi -p testtaba
 
 - example cleos actions

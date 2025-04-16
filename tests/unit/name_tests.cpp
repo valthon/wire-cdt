@@ -1,22 +1,22 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <limits>
 #include <string>
 
-#include <eosio/eosio.hpp>
-#include <eosio/tester.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/tester.hpp>
 
 using std::numeric_limits;
 using std::string;
 
-using eosio::name;
+using sysio::name;
 
 constexpr uint64_t u64max = numeric_limits<uint64_t>::max(); // 18446744073709551615ULL
 
-// Definitions in `eosio.cdt/libraries/eosio/name.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/name.hpp`
 EOSIO_TEST_BEGIN(name_type_test_ctr_num)
    //// constexpr name()
    CHECK_EQUAL( name{}.value, 0ULL )
@@ -115,15 +115,15 @@ EOSIO_TEST_BEGIN(name_type_test_str_len)
    CHECK_EQUAL( name{"eo"}.length(), 2 )
    CHECK_EQUAL( name{"eos"}.length(), 3 )
    CHECK_EQUAL( name{"eosi"}.length(), 4 )
-   CHECK_EQUAL( name{"eosio"}.length(), 5 )
-   CHECK_EQUAL( name{"eosioa"}.length(), 6 )
-   CHECK_EQUAL( name{"eosioac"}.length(), 7 )
-   CHECK_EQUAL( name{"eosioacc"}.length(), 8 )
-   CHECK_EQUAL( name{"eosioacco"}.length(), 9 )
-   CHECK_EQUAL( name{"eosioaccou"}.length(), 10 )
-   CHECK_EQUAL( name{"eosioaccoun"}.length(), 11 )
-   CHECK_EQUAL( name{"eosioaccount"}.length(), 12 )
-   CHECK_EQUAL( name{"eosioaccountj"}.length(), 13 )
+   CHECK_EQUAL( name{"sysio"}.length(), 5 )
+   CHECK_EQUAL( name{"sysioa"}.length(), 6 )
+   CHECK_EQUAL( name{"sysioac"}.length(), 7 )
+   CHECK_EQUAL( name{"sysioacc"}.length(), 8 )
+   CHECK_EQUAL( name{"sysioacco"}.length(), 9 )
+   CHECK_EQUAL( name{"sysioaccou"}.length(), 10 )
+   CHECK_EQUAL( name{"sysioaccoun"}.length(), 11 )
+   CHECK_EQUAL( name{"sysioaccount"}.length(), 12 )
+   CHECK_EQUAL( name{"sysioaccountj"}.length(), 13 )
 EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(name_type_test_str_too_long)
@@ -133,18 +133,18 @@ EOSIO_TEST_END
 EOSIO_TEST_BEGIN(name_type_test_suffix)
    // ----------------------------
    // constexpr name suffix()const
-   CHECK_EQUAL( name{".eosioaccounj"}.suffix(), name{"eosioaccounj"} )
+   CHECK_EQUAL( name{".sysioaccounj"}.suffix(), name{"sysioaccounj"} )
    CHECK_EQUAL( name{"e.osioaccounj"}.suffix(), name{"osioaccounj"} )
    CHECK_EQUAL( name{"eo.sioaccounj"}.suffix(), name{"sioaccounj"} )
    CHECK_EQUAL( name{"eos.ioaccounj"}.suffix(), name{"ioaccounj"} )
    CHECK_EQUAL( name{"eosi.oaccounj"}.suffix(), name{"oaccounj"} )
-   CHECK_EQUAL( name{"eosio.accounj"}.suffix(), name{"accounj"} )
-   CHECK_EQUAL( name{"eosioa.ccounj"}.suffix(), name{"ccounj"} )
-   CHECK_EQUAL( name{"eosioac.counj"}.suffix(), name{"counj"} )
-   CHECK_EQUAL( name{"eosioacc.ounj"}.suffix(), name{"ounj"} )
-   CHECK_EQUAL( name{"eosioacco.unj"}.suffix(), name{"unj"} )
-   CHECK_EQUAL( name{"eosioaccou.nj"}.suffix(), name{"nj"} )
-   CHECK_EQUAL( name{"eosioaccoun.j"}.suffix(), name{"j"} )
+   CHECK_EQUAL( name{"sysio.accounj"}.suffix(), name{"accounj"} )
+   CHECK_EQUAL( name{"sysioa.ccounj"}.suffix(), name{"ccounj"} )
+   CHECK_EQUAL( name{"sysioac.counj"}.suffix(), name{"counj"} )
+   CHECK_EQUAL( name{"sysioacc.ounj"}.suffix(), name{"ounj"} )
+   CHECK_EQUAL( name{"sysioacco.unj"}.suffix(), name{"unj"} )
+   CHECK_EQUAL( name{"sysioaccou.nj"}.suffix(), name{"nj"} )
+   CHECK_EQUAL( name{"sysioaccoun.j"}.suffix(), name{"j"} )
 
    CHECK_EQUAL( name{"e.o.s.i.o.a.c"}.suffix(), name{"c"} )
    CHECK_EQUAL( name{"eos.ioa.cco"}.suffix(), name{"cco"} )
@@ -155,20 +155,20 @@ EOSIO_TEST_BEGIN(name_type_test_prefix)
    // ----------------------------
    // constexpr name prefix()const
 
-   CHECK_EQUAL( name{".eosioaccounj"}.prefix(), name{} )
+   CHECK_EQUAL( name{".sysioaccounj"}.prefix(), name{} )
    CHECK_EQUAL( name{"e.osioaccounj"}.prefix(), name{"e"} )
    CHECK_EQUAL( name{"eo.sioaccounj"}.prefix(), name{"eo"} )
    CHECK_EQUAL( name{"eos.ioaccounj"}.prefix(), name{"eos"} )
    CHECK_EQUAL( name{"eosi.oaccounj"}.prefix(), name{"eosi"} )
-   CHECK_EQUAL( name{"eosio.accounj"}.prefix(), name{"eosio"} )
-   CHECK_EQUAL( name{"eosioa.ccounj"}.prefix(), name{"eosioa"} )
-   CHECK_EQUAL( name{"eosioac.counj"}.prefix(), name{"eosioac"} )
-   CHECK_EQUAL( name{"eosioacc.ounj"}.prefix(), name{"eosioacc"} )
-   CHECK_EQUAL( name{"eosioacco.unj"}.prefix(), name{"eosioacco"} )
-   CHECK_EQUAL( name{"eosioaccou.nj"}.prefix(), name{"eosioaccou"} )
-   CHECK_EQUAL( name{"eosioaccoun.j"}.prefix(), name{"eosioaccoun"} )
-   CHECK_EQUAL( name{"eosioaccounj."}.prefix(), name{"eosioaccounj"} )
-   CHECK_EQUAL( name{"eosioaccountj"}.prefix(), name{"eosioaccountj"} )
+   CHECK_EQUAL( name{"sysio.accounj"}.prefix(), name{"sysio"} )
+   CHECK_EQUAL( name{"sysioa.ccounj"}.prefix(), name{"sysioa"} )
+   CHECK_EQUAL( name{"sysioac.counj"}.prefix(), name{"sysioac"} )
+   CHECK_EQUAL( name{"sysioacc.ounj"}.prefix(), name{"sysioacc"} )
+   CHECK_EQUAL( name{"sysioacco.unj"}.prefix(), name{"sysioacco"} )
+   CHECK_EQUAL( name{"sysioaccou.nj"}.prefix(), name{"sysioaccou"} )
+   CHECK_EQUAL( name{"sysioaccoun.j"}.prefix(), name{"sysioaccoun"} )
+   CHECK_EQUAL( name{"sysioaccounj."}.prefix(), name{"sysioaccounj"} )
+   CHECK_EQUAL( name{"sysioaccountj"}.prefix(), name{"sysioaccountj"} )
 
    CHECK_EQUAL( name{"e.o.s.i.o.a.c"}.prefix(), name{"e.o.s.i.o.a"} )
    CHECK_EQUAL( name{"eos.ioa.cco"}.prefix(), name{"eos.ioa"} )

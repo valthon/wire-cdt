@@ -25,11 +25,11 @@ struct action_response
   std::pair<int, std::string> status;
 };
 
-class [[eosio::contract]] smrtcontract : public contract {
+class [[sysio::contract]] smrtcontract : public contract {
   public:
      using contract::contract;
 
-     [[eosio::action]]
+     [[sysio::action]]
      action_response checkwithrv( name nm );
 };
 ```
@@ -43,7 +43,7 @@ Complete the following steps to return an instance of `action_response` from the
 3. Use `return` statement and pass as a parameter the instance created and initialized in previous steps.
 
 ```cpp
-[[eosio::action]]
+[[sysio::action]]
 action_response smrtcontract::checkwithrv( name nm ) {
   print_f("Name : %\n", nm);
 

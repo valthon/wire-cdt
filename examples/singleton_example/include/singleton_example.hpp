@@ -1,8 +1,8 @@
-#include <eosio/eosio.hpp>
-#include <eosio/singleton.hpp>
-using namespace eosio;
+#include <sysio/sysio.hpp>
+#include <sysio/singleton.hpp>
+using namespace sysio;
 
-class [[eosio::contract]] singleton_example : public contract {
+class [[sysio::contract]] singleton_example : public contract {
    public:
       using contract::contract;
       singleton_example( name receiver, name code, datastream<const char*> ds ) :
@@ -10,18 +10,18 @@ class [[eosio::contract]] singleton_example : public contract {
          singleton_instance(receiver, receiver.value)
          {}
 
-      [[eosio::action]]
+      [[sysio::action]]
       void set( name user, uint64_t value );
-      [[eosio::action]]
+      [[sysio::action]]
       void get( );
 
-      struct [[eosio::table]] testtable {
+      struct [[sysio::table]] testtable {
          name primary_value;
          uint64_t secondary_value;
          uint64_t primary_key() const { return primary_value.value; }
       } testtablerow;
 
-      using singleton_type = eosio::singleton<"testtable"_n, testtable>;
+      using singleton_type = sysio::singleton<"testtable"_n, testtable>;
       singleton_type singleton_instance;
 
       using set_action = action_wrapper<"set"_n, &singleton_example::set>;

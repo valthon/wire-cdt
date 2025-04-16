@@ -1,7 +1,7 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 #include <vector>
 
-using namespace eosio;
+using namespace sysio;
 
 struct test_res {
    int a;
@@ -9,22 +9,22 @@ struct test_res {
    name  c;
 };
 
-class [[eosio::contract]] action_results_test : public contract {
+class [[sysio::contract]] action_results_test : public contract {
    public:
    using contract::contract;
 
-   [[eosio::action]]
+   [[sysio::action]]
    void action1() {}
 
-   [[eosio::action]]
+   [[sysio::action]]
    uint32_t action2() { return 42; }
 
-   [[eosio::action]]
+   [[sysio::action]]
    std::string action3() { return "foo"; }
 
-   [[eosio::action]]
+   [[sysio::action]]
    std::vector<name> action4() { return {"dan"_n}; }
 
-   [[eosio::action]]
+   [[sysio::action]]
    test_res action5() { return {4, 42.4f, "bucky"_n}; }
 };

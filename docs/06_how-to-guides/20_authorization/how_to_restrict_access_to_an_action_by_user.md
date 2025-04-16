@@ -16,10 +16,10 @@ This guide provides instructions how to perform authorization checks in a smart 
 
 See the following code reference guides for functions which can be used to implement authorization checks in a smart contract:
 
-* function [has_auth(name n)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespaceeosio#function-has_auth)
-* function [require_auth(name n)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespaceeosio#function-require_auth)
+* function [has_auth(name n)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespacesysio#function-has_auth)
+* function [require_auth(name n)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespacesysio#function-require_auth)
 * function [require_auth2(capi_name name, capi_name permission)](http://docs.eosnetwork.com/cdt/latest/reference/Files/action_8h)
-* function [check(bool pred, ...)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespaceeosio#function-check)
+* function [check(bool pred, ...)](http://docs.eosnetwork.com/cdt/latest/reference/Namespaces/namespacesysio#function-check)
 
 ## Procedure
 
@@ -37,7 +37,7 @@ The following code example enforces the action `hi` to be executed only by the a
 | Observe that in this case the yielded error message is a custom one and thus it can be used to provide a better experience for the user.
 
 ```cpp
-#include <capi/eosio/action.h>
+#include <capi/sysio/action.h>
 
 void hi( name user ) {
    check(has_auth(user), "User is not authorized to perform this action.");
@@ -66,7 +66,7 @@ void hi( name user ) {
 The below code is enforces the action `hi` to be executed only by the account that is sent as parameter to the action and only if the permission used to sign the transaction is the 'active' one. In other words, if the same user uses the transaction with a different permission (e.g. code, owner) the execution of the action is halted.
 
 ```cpp
-#include <capi/eosio/action.h>
+#include <capi/sysio/action.h>
 
 void hi( name user ) {
    require_auth2(user.value, "active"_n.value);

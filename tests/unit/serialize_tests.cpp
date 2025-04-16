@@ -1,6 +1,6 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <algorithm>
@@ -9,9 +9,9 @@
 #include <tuple>
 #include <vector>
 
-#include <eosio/tester.hpp>
-#include <eosio/datastream.hpp>
-#include <eosio/serialize.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/datastream.hpp>
+#include <sysio/serialize.hpp>
 
 using std::begin;
 using std::end;
@@ -21,7 +21,7 @@ using std::string;
 using std::tie;
 using std::vector;
 
-using eosio::datastream;
+using sysio::datastream;
 
 struct B {
    const char c{};
@@ -50,7 +50,7 @@ struct D2 : public D1 {
    }
 };
 
-// Definitions in `eosio.cdt/libraries/eosio/serialize.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/serialize.hpp`
 EOSIO_TEST_BEGIN(serialize_test)
    static constexpr uint16_t buffer_size{256};
    char ds_buffer[buffer_size]{}; // Buffer for the datastream to point to

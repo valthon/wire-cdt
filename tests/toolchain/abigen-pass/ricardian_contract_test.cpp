@@ -1,12 +1,12 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
-class [[eosio::contract]] ricardian_contract_test : public contract {
+class [[sysio::contract]] ricardian_contract_test : public contract {
   public:
       using contract::contract;
       
-      [[eosio::action]]
+      [[sysio::action]]
       void test() {
       }
 };

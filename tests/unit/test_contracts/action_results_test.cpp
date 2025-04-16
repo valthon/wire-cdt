@@ -1,17 +1,17 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
-class [[eosio::contract]] action_results_test : public contract {
+class [[sysio::contract]] action_results_test : public contract {
    public:
    using contract::contract;
 
-   [[eosio::action]]
+   [[sysio::action]]
    void action1() {}
 
-   [[eosio::action]]
+   [[sysio::action]]
    uint32_t action2() { return 42; }
 
-   [[eosio::action]]
+   [[sysio::action]]
    std::string action3() { return "foo"; }
 };

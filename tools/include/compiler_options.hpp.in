@@ -1,7 +1,7 @@
 #pragma once
-#include <eosio/utils.hpp>
-#include <eosio/abi.hpp>
-#include <eosio/whereami/whereami.hpp>
+#include <sysio/utils.hpp>
+#include <sysio/abi.hpp>
+#include <sysio/whereami/whereami.hpp>
 #include <vector>
 #include <string>
 #include "llvm/Support/FileSystem.h"
@@ -66,8 +66,8 @@ static cl::opt<std::string> imports_opt(
     cl::Hidden,
     cl::cat(LD_CAT));
 static cl::opt<std::string> pp_path_opt(
-    "eosio-pp-dir",
-    cl::desc("Set the directory for eosio-pp"),
+    "sysio-pp-dir",
+    cl::desc("Set the directory for sysio-pp"),
     cl::Hidden,
     cl::cat(LD_CAT));
 static cl::opt<bool> use_rt_opt(
@@ -382,7 +382,7 @@ struct Options {
    bool abigen;
    bool suppress_ricardian_warning;
    bool pp_only;
-   std::string eosio_pp_dir;
+   std::string sysio_pp_dir;
    std::string abigen_output;
    std::string abigen_contract;
    std::vector<std::string> comp_options;
@@ -398,12 +398,12 @@ struct Options {
 };
 
 static void GetCompDefaults(std::vector<std::string>& copts) {
-   const char* eosio_apply_suff = "${CMAKE_SHARED_LIBRARY_SUFFIX}";
+   const char* sysio_apply_suff = "${CMAKE_SHARED_LIBRARY_SUFFIX}";
    // add the define for whether this is compiling with CDT and version macros
-   copts.emplace_back("-D__eosio_cdt__");
-   copts.emplace_back(std::string("-D__eosio_cdt_major__=")+"${VERSION_MAJOR}");
-   copts.emplace_back(std::string("-D__eosio_cdt_minor__=")+"${VERSION_MINOR}");
-   copts.emplace_back(std::string("-D__eosio_cdt_patchlevel__=")+"${VERSION_PATCH}");
+   copts.emplace_back("-D__sysio_cdt__");
+   copts.emplace_back(std::string("-D__sysio_cdt_major__=")+"${VERSION_MAJOR}");
+   copts.emplace_back(std::string("-D__sysio_cdt_minor__=")+"${VERSION_MINOR}");
+   copts.emplace_back(std::string("-D__sysio_cdt_patchlevel__=")+"${VERSION_PATCH}");
    if (!fnative_opt) {
       copts.emplace_back("--target=wasm32");
       copts.emplace_back("-ffreestanding");
@@ -422,7 +422,7 @@ static void GetCompDefaults(std::vector<std::string>& copts) {
       if (!fasm_opt) {
          copts.emplace_back("-fno-builtin");
          copts.emplace_back("-mstackrealign");
-         copts.emplace_back("-D__eosio_cdt_native__");
+         copts.emplace_back("-D__sysio_cdt_native__");
          copts.emplace_back("-DEOSIO_NATIVE");
          copts.emplace_back("-DLLP64");
       }
@@ -443,24 +443,24 @@ static void GetCompDefaults(std::vector<std::string>& copts) {
          copts.emplace_back("-Xclang");
          copts.emplace_back("-load");
          copts.emplace_back("-Xclang");
-         if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/LLVMEosioApply"+eosio_apply_suff))
-            copts.emplace_back(eosio::cdt::whereami::where()+"/LLVMEosioApply"+eosio_apply_suff);
-         else if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/../lib/LLVMEosioApply"+eosio_apply_suff))
-            copts.emplace_back(eosio::cdt::whereami::where()+"/../lib/LLVMEosioApply"+eosio_apply_suff);
+         if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/LLVMEosioApply"+sysio_apply_suff))
+            copts.emplace_back(sysio::cdt::whereami::where()+"/LLVMEosioApply"+sysio_apply_suff);
+         else if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/../lib/LLVMEosioApply"+sysio_apply_suff))
+            copts.emplace_back(sysio::cdt::whereami::where()+"/../lib/LLVMEosioApply"+sysio_apply_suff);
       }
       if (false && fnative_opt) {
          copts.emplace_back("-Xclang");
          copts.emplace_back("-load");
          copts.emplace_back("-Xclang");
-         if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/LLVMEosioSoftfloat"+eosio_apply_suff))
-            copts.emplace_back(eosio::cdt::whereami::where()+"/LLVMEosioSoftfloat"+eosio_apply_suff);
-         else if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/../lib/LLVMEosioSoftfloat"+eosio_apply_suff))
-            copts.emplace_back(eosio::cdt::whereami::where()+"/../lib/LLVMEosioSoftfloat"+eosio_apply_suff);
+         if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/LLVMEosioSoftfloat"+sysio_apply_suff))
+            copts.emplace_back(sysio::cdt::whereami::where()+"/LLVMEosioSoftfloat"+sysio_apply_suff);
+         else if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/../lib/LLVMEosioSoftfloat"+sysio_apply_suff))
+            copts.emplace_back(sysio::cdt::whereami::where()+"/../lib/LLVMEosioSoftfloat"+sysio_apply_suff);
       }
-      if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/eosio_plugin"+eosio_apply_suff))
-         copts.emplace_back("-fplugin="+eosio::cdt::whereami::where()+"/eosio_plugin"+eosio_apply_suff);
-      else if (llvm::sys::fs::exists(eosio::cdt::whereami::where()+"/../lib/eosio_plugin"+eosio_apply_suff))
-         copts.emplace_back("-fplugin="+eosio::cdt::whereami::where()+"/../lib/eosio_plugin"+eosio_apply_suff);
+      if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/sysio_plugin"+sysio_apply_suff))
+         copts.emplace_back("-fplugin="+sysio::cdt::whereami::where()+"/sysio_plugin"+sysio_apply_suff);
+      else if (llvm::sys::fs::exists(sysio::cdt::whereami::where()+"/../lib/sysio_plugin"+sysio_apply_suff))
+         copts.emplace_back("-fplugin="+sysio::cdt::whereami::where()+"/../lib/sysio_plugin"+sysio_apply_suff);
    }
 }
 
@@ -510,18 +510,18 @@ static void GetLdDefaults(std::vector<std::string>& ldopts) {
       }
       ldopts.emplace_back("-lc++");
       ldopts.emplace_back("-lc");
-      ldopts.emplace_back("-leosio");
+      ldopts.emplace_back("-lsysio");
       if (use_old_malloc_opt)
-         ldopts.emplace_back("-leosio_malloc");
+         ldopts.emplace_back("-lsysio_malloc");
       else
-         ldopts.emplace_back("-leosio_dsm");
+         ldopts.emplace_back("-lsysio_dsm");
 
       if (use_rt_opt || fquery_opt || fquery_server_opt || fquery_client_opt) {
          ldopts.emplace_back("-lrt");
          ldopts.emplace_back("-lsf");
       }
       if (fquery_opt || fquery_server_opt || fquery_client_opt)
-         ldopts.emplace_back("-leosio_cmem");
+         ldopts.emplace_back("-lsysio_cmem");
       if (!only_export_opt.empty()) {
          ldopts.emplace_back("--only-export");
          ldopts.emplace_back(only_export_opt);
@@ -537,7 +537,7 @@ static void GetLdDefaults(std::vector<std::string>& ldopts) {
       ldopts.insert(ldopts.end(), {"-arch", "x86_64", "-macosx_version_min", "10.13", "-framework", "Foundation", "-framework", "System"});
 #endif
       ldopts.emplace_back("-static");
-      ldopts.insert(ldopts.end(), {"-lnative_c++", "-lnative_c", "-lnative_eosio", "-lnative", "-lnative_rt"});
+      ldopts.insert(ldopts.end(), {"-lnative_c++", "-lnative_c", "-lnative_sysio", "-lnative", "-lnative_rt"});
    }
 }
 #endif
@@ -596,7 +596,7 @@ static Options CreateOptions(bool add_defaults=true) {
    if (!pp_path_opt.empty())
       pp_dir = pp_path_opt;
    else
-      pp_dir = eosio::cdt::whereami::where();
+      pp_dir = sysio::cdt::whereami::where();
 
    if (!fno_cfl_aa_opt) {
       copts.emplace_back("-mllvm");
@@ -618,9 +618,9 @@ static Options CreateOptions(bool add_defaults=true) {
    }
 
 #ifdef ONLY_LD
-   ldopts.emplace_back("-L"+eosio::cdt::whereami::where()+"/../lib");
+   ldopts.emplace_back("-L"+sysio::cdt::whereami::where()+"/../lib");
 #ifndef __APPLE__
-   ldopts.emplace_back("-L"+eosio::cdt::whereami::where()+"/../lib64");
+   ldopts.emplace_back("-L"+sysio::cdt::whereami::where()+"/../lib64");
 #endif
 #endif
 #ifndef ONLY_LD
@@ -721,16 +721,16 @@ static Options CreateOptions(bool add_defaults=true) {
       copts.emplace_back("-I"+sysroot_opt+"/include/libcxx");
       copts.emplace_back("-I"+sysroot_opt+"/include/libc");
 
-      // only allow capi for native builds and for eosio-cc
+      // only allow capi for native builds and for sysio-cc
       if (fnative_opt) {
-        copts.emplace_back("-I"+sysroot_opt+"/include/eosiolib/capi");
-        copts.emplace_back("-I"+sysroot_opt+"/include/eosiolib/native");
+        copts.emplace_back("-I"+sysroot_opt+"/include/sysiolib/capi");
+        copts.emplace_back("-I"+sysroot_opt+"/include/sysiolib/native");
       }
 #ifndef CPP_COMP
-      copts.emplace_back("-I"+sysroot_opt+"/include/eosiolib/capi");
+      copts.emplace_back("-I"+sysroot_opt+"/include/sysiolib/capi");
 #endif
-      copts.emplace_back("-I"+sysroot_opt+"/include/eosiolib/core");
-      copts.emplace_back("-I"+sysroot_opt+"/include/eosiolib/contracts");
+      copts.emplace_back("-I"+sysroot_opt+"/include/sysiolib/core");
+      copts.emplace_back("-I"+sysroot_opt+"/include/sysiolib/contracts");
 
       ldopts.emplace_back("-L"+sysroot_opt+"/lib");
 #ifndef __APPLE__
@@ -738,28 +738,28 @@ static Options CreateOptions(bool add_defaults=true) {
 #endif
    }
    else {
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/libcxx");
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/libc");
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include");
-      copts.emplace_back("--sysroot="+eosio::cdt::whereami::where()+"/../");
-      agopts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/libcxx");
-      agopts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/libc");
-      agopts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include");
-      agopts.emplace_back("--sysroot="+eosio::cdt::whereami::where()+"/../");
-      ldopts.emplace_back("-L"+eosio::cdt::whereami::where()+"/../lib");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/libcxx");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/libc");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include");
+      copts.emplace_back("--sysroot="+sysio::cdt::whereami::where()+"/../");
+      agopts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/libcxx");
+      agopts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/libc");
+      agopts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include");
+      agopts.emplace_back("--sysroot="+sysio::cdt::whereami::where()+"/../");
+      ldopts.emplace_back("-L"+sysio::cdt::whereami::where()+"/../lib");
 
       if (fnative_opt) {
-        copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/eosiolib/capi");
-        copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/eosiolib/native");
+        copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/sysiolib/capi");
+        copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/sysiolib/native");
       }
 #ifndef CPP_COMP
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/eosiolib/capi");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/sysiolib/capi");
 #endif
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/eosiolib/core");
-      copts.emplace_back("-I"+eosio::cdt::whereami::where()+"/../include/eosiolib/contracts");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/sysiolib/core");
+      copts.emplace_back("-I"+sysio::cdt::whereami::where()+"/../include/sysiolib/contracts");
 
 #ifndef __APPLE__
-      ldopts.emplace_back("-L"+eosio::cdt::whereami::where()+"/../lib64");
+      ldopts.emplace_back("-L"+sysio::cdt::whereami::where()+"/../lib64");
 #endif
    }
    if (O_opt.empty() && !g_opt) {
@@ -868,7 +868,7 @@ static Options CreateOptions(bool add_defaults=true) {
          ldopts.emplace_back("--allow-undefined-file="+imports_opt);
       }
       else {
-         ldopts.emplace_back("--allow-undefined-file="+eosio::cdt::whereami::where()+"/../cdt.imports");
+         ldopts.emplace_back("--allow-undefined-file="+sysio::cdt::whereami::where()+"/../cdt.imports");
       }
 #endif
    }

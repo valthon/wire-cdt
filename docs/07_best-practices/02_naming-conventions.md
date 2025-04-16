@@ -38,17 +38,17 @@ The figure below showcases a 12 character string formatted into a 64-bit unsigne
 
 ## Encoding and decoding
 
-Antelope name objects can be created, encoded, and decoded via the `eosio::name` class.
+Antelope name objects can be created, encoded, and decoded via the `sysio::name` class.
 
-1. To encode an `std::string` into an Antelope name object, use the appropriate `eosio::name()` constructor.
+1. To encode an `std::string` into an Antelope name object, use the appropriate `sysio::name()` constructor.
 2. To encode a `char *` string literal into an Antelope name object, you can also use the `""_n` operator.
-3. To decode an Antelope name object into an `std::string`, use the `eosio::to_string()` function.
+3. To decode an Antelope name object into an `std::string`, use the `sysio::to_string()` function.
 
 ### Examples
 
 ```cpp
-auto eosio_user = eosio::name{user};  //encodes user string to eosio::name object
-auto user_str = user_name_obj.to_string(); //decodes eosio::name obj to string
-auto standard_account = "standardname"_n;  //encodes literal string to eosio::name
-auto non_standard_account = ".standard"_n; //encodes literal string to eosio::name
+auto sysio_user = sysio::name{user};  //encodes user string to sysio::name object
+auto user_str = user_name_obj.to_string(); //decodes sysio::name obj to string
+auto standard_account = "standardname"_n;  //encodes literal string to sysio::name
+auto non_standard_account = ".standard"_n; //encodes literal string to sysio::name
 ```

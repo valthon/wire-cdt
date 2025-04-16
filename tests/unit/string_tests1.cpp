@@ -1,19 +1,19 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
-#include <eosio/tester.hpp>
-#include <eosio/datastream.hpp>
-#include <eosio/string.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/datastream.hpp>
+#include <sysio/string.hpp>
 
 using std::fill;
 using std::move;
 
-using eosio::datastream;
-using eosio::string;
+using sysio::datastream;
+using sysio::string;
 
-// Definitions found in `eosio.cdt/libraries/eosiolib/core/eosio/string.hpp`
+// Definitions found in `sysio.cdt/libraries/sysiolib/core/sysio/string.hpp`
 
 //// template <size_t N>
 //// string(const char (&str)[N])
@@ -354,7 +354,7 @@ EOSIO_TEST_BEGIN(string_test_char_eq_at_1)
    CHECK_EQUAL( eostr.at(0), 'a' )
    CHECK_EQUAL( eostr.at(5), 'f' )
 
-   CHECK_ASSERT( "eosio::string::at", [&]() {eostr.at(6);} )
+   CHECK_ASSERT( "sysio::string::at", [&]() {eostr.at(6);} )
 EOSIO_TEST_END
 
 //// const char& at(const size_t n) const
@@ -363,7 +363,7 @@ EOSIO_TEST_BEGIN(string_test_char_eq_at_2)
    CHECK_EQUAL( eostr.at(0), 'a' )
    CHECK_EQUAL( eostr.at(5), 'f' )
 
-   CHECK_ASSERT( "eosio::string::at const", [&]() {eostr.at(6);} )
+   CHECK_ASSERT( "sysio::string::at const", [&]() {eostr.at(6);} )
 EOSIO_TEST_END
 
 EOSIO_TEST_BEGIN(string_test_char_eq_at_3)
@@ -794,7 +794,7 @@ EOSIO_TEST_END
 EOSIO_TEST_BEGIN(string_test_copy_3)
    const string eostr{"abcdef"};
    char str[7]{};
-   CHECK_ASSERT( "eosio::string::copy", [&]() {eostr.copy(str, 1, eostr.size()+1);} )
+   CHECK_ASSERT( "sysio::string::copy", [&]() {eostr.copy(str, 1, eostr.size()+1);} )
 EOSIO_TEST_END
 
 //// string& insert(const size_t pos, const char* str)

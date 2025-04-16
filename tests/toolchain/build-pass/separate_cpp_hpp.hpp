@@ -1,8 +1,8 @@
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 
-class [[eosio::contract]] separate_cpp_hpp : eosio::contract {
+class [[sysio::contract]] separate_cpp_hpp : sysio::contract {
 public:
    using contract::contract;
 
-   [[eosio::action]] void act();
+   [[sysio::action]] void act();
 };

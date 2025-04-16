@@ -15,11 +15,11 @@ The Application Binary Interface (ABI) is a JSON-based description on how to con
 
 ## Create an ABI File
 
-Start with an empty ABI, for exemplification we will work based on the `eosio.token` therefore name it `eosio.token.abi`:
+Start with an empty ABI, for exemplification we will work based on the `sysio.token` therefore name it `sysio.token.abi`:
 
 ```text
 {
-   "version": "eosio::abi/1.0",
+   "version": "sysio::abi/1.0",
    "types": [],
    "structs": [],
    "actions": [],
@@ -35,7 +35,7 @@ Start with an empty ABI, for exemplification we will work based on the `eosio.to
 An ABI enables any client or interface to interpret and even generate a GUI for your contract. For this to work consistently, describe the custom types that are used as a parameter in any public action or struct that needs to be described in the ABI.
 
 [[info | Built-in Types]]
-| Antelope implements a number of custom built-ins. Built-in types don't need to be described in an ABI file. If you would like to familiarize yourself with Antelope's built-ins, they are defined [here](https://github.com/AntelopeIO/leap/blob/6817911900a088c60f91563995cf482d6b380b2d/libraries/chain/abi_serializer.cpp#L88-L129)
+| Antelope implements a number of custom built-ins. Built-in types don't need to be described in an ABI file. If you would like to familiarize yourself with Antelope's built-ins, they are defined [here](https://github.com/AntelopeIO/wire_sysio/blob/6817911900a088c60f91563995cf482d6b380b2d/libraries/chain/abi_serializer.cpp#L88-L129)
 
 
 ```json
@@ -48,7 +48,7 @@ The ABI now looks like this:
 
 ```json
 {
-   "version": "eosio::abi/1.1",
+   "version": "sysio::abi/1.1",
    "types": [{
      "new_type_name": "name",
      "type": "name"
@@ -63,7 +63,7 @@ The ABI now looks like this:
 
 ## Structs
 
-Structs that are exposed to the ABI also need to be described. By looking at eosio.token.hpp, it can be quickly determined which structs are utilized by public actions. This is particularly important for the next step.
+Structs that are exposed to the ABI also need to be described. By looking at sysio.token.hpp, it can be quickly determined which structs are utilized by public actions. This is particularly important for the next step.
 
 A struct's object definition in JSON looks like the following:
 
@@ -82,13 +82,13 @@ A struct's object definition in JSON looks like the following:
    "type":""   // The field's type
 }    
 ```
-In the `eosio.token` contract, there's a number of structs that require definition. Please note, not all of the structs are explicitly defined, some correspond to an actions' parameters. Here's a list of structs that require an ABI description for the `eosio.token` contract:
+In the `sysio.token` contract, there's a number of structs that require definition. Please note, not all of the structs are explicitly defined, some correspond to an actions' parameters. Here's a list of structs that require an ABI description for the `sysio.token` contract:
 
 ## Implicit Structs
 
-The following structs are implicit in that a struct was never explicitly defined in the contract. Looking at the [create](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-create) action, you'll find two parameters, `issuer` of type `name ` and `maximum_supply` of type `asset`. For brevity this tutorial won't break down every struct, but applying the same logic, you will end up with the following:
+The following structs are implicit in that a struct was never explicitly defined in the contract. Looking at the [create](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-create) action, you'll find two parameters, `issuer` of type `name ` and `maximum_supply` of type `asset`. For brevity this tutorial won't break down every struct, but applying the same logic, you will end up with the following:
 
-### [create](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-create)
+### [create](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-create)
 
 ```json
 {
@@ -106,7 +106,7 @@ The following structs are implicit in that a struct was never explicitly defined
   ]
 }
 ```
-### [issue](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-issue)
+### [issue](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-issue)
 
 ```json
 {
@@ -128,7 +128,7 @@ The following structs are implicit in that a struct was never explicitly defined
   ]
 }
 ```
-### [retire](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-retire)
+### [retire](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-retire)
 
 ```json
 {
@@ -147,7 +147,7 @@ The following structs are implicit in that a struct was never explicitly defined
 }
 ```
 
-### [transfer](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-transfer)
+### [transfer](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-transfer)
 
 ```json
 {
@@ -174,7 +174,7 @@ The following structs are implicit in that a struct was never explicitly defined
 }
 ```
 
-### [close](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classeosio_1_1token#function-close)
+### [close](http://docs.eosnetwork.com/system-contracts/latest/reference/Classes/classsysio_1_1token#function-close)
 
 ```json
 {
@@ -197,7 +197,7 @@ The following structs are implicit in that a struct was never explicitly defined
 
 These structs are explicitly defined, as they are a requirement to instantiate a multi-index table. Describing them is no different than defining the implicit structs as demonstrated above.
 
-### [account](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L120)
+### [account](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L120)
 
 ```json
 {
@@ -223,13 +223,13 @@ An action's JSON object definition looks like the following:
   "ricardian_contract": "" 	//An optional ricardian clause to associate to this action describing its intended functionality.
 }
 ```
-Describe the actions of the `eosio.token` contract by aggregating all the public functions described in the `eosio.token` contract's [header file](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp).
+Describe the actions of the `sysio.token` contract by aggregating all the public functions described in the `sysio.token` contract's [header file](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp).
 
 Then describe each action's *type* according to its previously described struct. In most situations, the function name and the struct name will be equal, but are not required to be equal.
 
 Below is a list of actions that link to their source code with example JSON provided for how each action would be described.
 
-##  [create](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L35-L37)
+##  [create](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L35-L37)
 
 ```json
 {
@@ -239,7 +239,7 @@ Below is a list of actions that link to their source code with example JSON prov
 }
 ```
 
-## [issue](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L45-L46)
+## [issue](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L45-L46)
 
 ```json
 {
@@ -249,7 +249,7 @@ Below is a list of actions that link to their source code with example JSON prov
 }
 ```
 
-## [retire](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L55-L56)
+## [retire](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L55-L56)
 
 ```json
 {
@@ -259,7 +259,7 @@ Below is a list of actions that link to their source code with example JSON prov
 }
 ```
 
-## [transfer](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L67-L71)
+## [transfer](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L67-L71)
 
 ```json
 {
@@ -269,7 +269,7 @@ Below is a list of actions that link to their source code with example JSON prov
 }
 ```
 
-## [close](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L96-L97)
+## [close](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L96-L97)
 
 ```json
 {
@@ -293,9 +293,9 @@ Describe the tables. Here's a table's JSON object definition:
 }
 ```
 
-The eosio.token contract instantiates two tables, [accounts](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L134) and [stat](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L135).
+The sysio.token contract instantiates two tables, [accounts](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L134) and [stat](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L135).
 
-The `accounts` table is an i64 index, based on the [`account` struct](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L120-L124), has a [`uint64` as it's primary key](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L123)
+The `accounts` table is an i64 index, based on the [`account` struct](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L120-L124), has a [`uint64` as it's primary key](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L123)
 
 Here's how the accounts table would be described in the ABI
 
@@ -309,7 +309,7 @@ Here's how the accounts table would be described in the ABI
 }
 ```
 
-The `stat` table is an i64 index, based on the [`currency_stats` struct](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L126-L132), has a [`uint64` as it's primary key](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/eosio.token/include/eosio.token/eosio.token.hpp#L131)
+The `stat` table is an i64 index, based on the [`currency_stats` struct](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L126-L132), has a [`uint64` as it's primary key](https://github.com/AntelopeIO/reference-contracts/blob/main/contracts/sysio.token/include/sysio.token/sysio.token.hpp#L131)
 
 Here's how the stat table would be described in the ABI
 
@@ -326,11 +326,11 @@ You'll notice the above tables have the same "key name." Naming your keys simila
 
 ## Putting it all Together
 
-Finally, an ABI file that accurately describes the `eosio.token` contract.
+Finally, an ABI file that accurately describes the `sysio.token` contract.
 
 ```json
 {
-  "version": "eosio::abi/1.1",
+  "version": "sysio::abi/1.1",
   "types": [
     {
       "new_type_name": "name",
@@ -507,13 +507,13 @@ When describing a vector in your ABI file, simply append the type with `[]`, so 
 
 It's a rarely used property worth mentioning. You can use **base** ABI struct property to reference another struct for inheritance, as long as that struct is also described in the same ABI file. Base will do nothing or potentially throw an error if your smart contract logic does not support inheritance.
 
-You can see an example of base in use in the system contract [source code](https://github.com/AntelopeIO/reference-contracts/blob/9d9401e1bd937406b4e2c4f2fd234f22a2d6e3bc/contracts/eosio.system/include/eosio.system/eosio.system.hpp#L141).
+You can see an example of base in use in the system contract [source code](https://github.com/AntelopeIO/reference-contracts/blob/9d9401e1bd937406b4e2c4f2fd234f22a2d6e3bc/contracts/sysio.system/include/sysio.system/sysio.system.hpp#L141).
 
 The corresponsing ABI definition would look like this:
 
 ```json
 {
-      "name": "eosio_global_state",
+      "name": "sysio_global_state",
       "base": "blockchain_parameters",
       "fields": [
          {"name":"max_ram_size",                  "type":"uint64"},

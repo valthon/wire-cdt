@@ -1,6 +1,6 @@
 #include <boost/test/unit_test.hpp>
-#include <eosio/testing/tester.hpp>
-#include <eosio/chain/abi_serializer.hpp>
+#include <sysio/testing/tester.hpp>
+#include <sysio/chain/abi_serializer.hpp>
 
 #include <Runtime/Runtime.h>
 
@@ -8,10 +8,10 @@
 
 #include <contracts.hpp>
 
-using namespace eosio;
-using namespace eosio::testing;
-using namespace eosio::chain;
-using namespace eosio::testing;
+using namespace sysio;
+using namespace sysio::testing;
+using namespace sysio::chain;
+using namespace sysio::testing;
 using namespace fc;
 
 using mvo = fc::mutable_variant_object;
@@ -28,8 +28,8 @@ BOOST_FIXTURE_TEST_CASE( malloc_tests, tester ) try {
    push_action("test"_n, "mallocpass"_n, "test"_n, {});
    push_action("test"_n, "mallocalign"_n, "test"_n, {});
    BOOST_CHECK_EXCEPTION( push_action("test"_n, "mallocfail"_n, "test"_n, {}),
-                          eosio_assert_message_exception,
-                          eosio_assert_message_is("failed to allocate pages") );
+                          sysio_assert_message_exception,
+                          sysio_assert_message_is("failed to allocate pages") );
 } FC_LOG_AND_RETHROW()
 
 BOOST_AUTO_TEST_SUITE_END()

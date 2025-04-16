@@ -9,15 +9,15 @@ Once you have your smart contract written then a test source file can be written
 
 `hello.hpp`
 ```c++ 
-#include <eosio/eosio.hpp>
+#include <sysio/sysio.hpp>
 
-using namespace eosio;
+using namespace sysio;
 
-class [[eosio::contract]] hello : public eosio::contract {
+class [[sysio::contract]] hello : public sysio::contract {
   public:
       using contract::contract;
 
-      [[eosio::action]] void hi( name user );
+      [[sysio::action]] void hi( name user );
 
       // accessor for external contracts to easily send inline actions to your contract
       using hi_action = action_wrapper<"hi"_n, &hello::hi>;
@@ -27,13 +27,13 @@ class [[eosio::contract]] hello : public eosio::contract {
 and then a quick test
 `hello_test.cpp`
 ```c++
-#include <eosio/eosio.hpp>
-#include <eosio/tester.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/tester.hpp>
 
 #include <hello.hpp>
 
-using namespace eosio;
-using namespace eosio::native;
+using namespace sysio;
+using namespace sysio::native;
 
 EOSIO_TEST_BEGIN(hello_test)
    // These can be redefined by the user to suit there needs per unit test
@@ -43,14 +43,14 @@ EOSIO_TEST_BEGIN(hello_test)
    // like these"
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = "hello"_n;
+            check(len <= sizeof(sysio::name), "failed from read_action_data");
+            *((sysio::name*)m) = "hello"_n;
             return len; 
          });
 
    intrinsics::set_intrinsic<intrinsics::action_data_size>(
          []() {
-            return (uint32_t)sizeof(eosio::name);
+            return (uint32_t)sizeof(sysio::name);
          });
    
    intrinsics::set_intrinsic<intrinsics::require_auth>(
@@ -70,8 +70,8 @@ EOSIO_TEST_BEGIN(hello_test)
    name nm = "null"_n;
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [&](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = nm;
+            check(len <= sizeof(sysio::name), "failed from read_action_data");
+            *((sysio::name*)m) = nm;
             return len; 
          });
 
@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-Every `intrinsic` that is defined for eosio (prints, require_auth, etc.) is re-definable given the `intrinsics::set_intrinsics<intrinsics::the_intrinsic_name>()` functions.  These take a lambda whose arguments and return type should match that of the intrinsic you are trying to define.  This gives the contract writer the flexibility to modify behavior to suit the unit test being written. A sister function `intrinsics::get_intrinsics<intrinsics::the_intrinsic_name>()` will return the function object that currently defines the behavior for said intrinsic.  This pattern can be used to mock functionality and allow for easier testing of smart contracts.  For more information see, either the [tests](https://github.com/AntelopeIO/cdt/tree/main/examples/hello/tests/) directory or [hello_test.cpp](https://github.com/AntelopeIO/cdt/blob/main/examples/hello/tests/hello_test.cpp) for working examples.
+Every `intrinsic` that is defined for sysio (prints, require_auth, etc.) is re-definable given the `intrinsics::set_intrinsics<intrinsics::the_intrinsic_name>()` functions.  These take a lambda whose arguments and return type should match that of the intrinsic you are trying to define.  This gives the contract writer the flexibility to modify behavior to suit the unit test being written. A sister function `intrinsics::get_intrinsics<intrinsics::the_intrinsic_name>()` will return the function object that currently defines the behavior for said intrinsic.  This pattern can be used to mock functionality and allow for easier testing of smart contracts.  For more information see, either the [tests](https://github.com/AntelopeIO/cdt/tree/main/examples/hello/tests/) directory or [hello_test.cpp](https://github.com/AntelopeIO/cdt/blob/main/examples/hello/tests/hello_test.cpp) for working examples.
 
 ## Compiling Native Code
 - Raw `cdt-cpp` to compile the test or program the only addition needed to the command line is to add the flag `-fnative` this will then generate native code instead of `wasm` code.

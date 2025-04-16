@@ -1,10 +1,10 @@
-#include <eosio/eosio.hpp>
-#include <eosio/tester.hpp>
+#include <sysio/sysio.hpp>
+#include <sysio/tester.hpp>
 
 #include <hello.hpp>
 
-using namespace eosio;
-using namespace eosio::native;
+using namespace sysio;
+using namespace sysio::native;
 
 // need to create a dispatcher, codegen will not be done for native builds until a later release
 EOSIO_DISPATCH(hello, (hi)(check))
@@ -17,14 +17,14 @@ EOSIO_TEST_BEGIN(hello_test)
    // like these
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = "hello"_n;
+            check(len <= sizeof(sysio::name), "failed from read_action_data");
+            *((sysio::name*)m) = "hello"_n;
             return len; 
          });
 
    intrinsics::set_intrinsic<intrinsics::action_data_size>(
          []() {
-            return (uint32_t)sizeof(eosio::name);
+            return (uint32_t)sizeof(sysio::name);
          });
    
    intrinsics::set_intrinsic<intrinsics::require_auth>(
@@ -44,8 +44,8 @@ EOSIO_TEST_BEGIN(hello_test)
    name nm = "null"_n;
    intrinsics::set_intrinsic<intrinsics::read_action_data>(
          [&](void* m, uint32_t len) {
-            check(len <= sizeof(eosio::name), "failed from read_action_data");
-            *((eosio::name*)m) = nm;
+            check(len <= sizeof(sysio::name), "failed from read_action_data");
+            *((sysio::name*)m) = nm;
             return len; 
          });
 

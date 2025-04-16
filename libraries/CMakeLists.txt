@@ -13,7 +13,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 add_subdirectory(libc)
 add_subdirectory(libc++)
-add_subdirectory(eosiolib)
+add_subdirectory(sysiolib)
 add_subdirectory(boost)
 add_subdirectory(rt)
 

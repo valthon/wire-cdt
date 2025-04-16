@@ -1,18 +1,18 @@
 /**
  *  @file
- *  @copyright defined in eosio.cdt/LICENSE.txt
+ *  @copyright defined in sysio.cdt/LICENSE.txt
  */
 
 #include <array>
 
-#include <eosio/tester.hpp>
-#include <eosio/fixed_bytes.hpp>
+#include <sysio/tester.hpp>
+#include <sysio/fixed_bytes.hpp>
 
 using std::array;
 
-using eosio::fixed_bytes;
+using sysio::fixed_bytes;
 
-// Definitions in `eosio.cdt/libraries/eosio/fixed_bytes.hpp`
+// Definitions in `sysio.cdt/libraries/sysio/fixed_bytes.hpp`
 EOSIO_TEST_BEGIN(fixed_bytes_test)
    //// constexpr fixed_bytes()
    // static constexpr size_t padded_bytes()
