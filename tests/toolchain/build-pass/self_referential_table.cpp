@@ -1,6 +1,4 @@
 /*
- * Regression test for https://github.com/EOSIO/sysio.cdt/issues/527.
- *
  * Verifies that a table can reference its own type.
  */
 

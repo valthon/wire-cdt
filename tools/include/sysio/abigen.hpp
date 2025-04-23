@@ -804,7 +804,7 @@ namespace sysio { namespace cdt {
                return false;
             if (decl1 == decl2)
                return true;
-            
+
             // checking if declaration is a typedef or using
             if (const clang::TypedefNameDecl* typedef_decl = llvm::dyn_cast<clang::TypedefNameDecl>(decl1)) {
                if (const auto* cur_type = typedef_decl->getUnderlyingType().getTypePtrOrNull()) {
@@ -816,7 +816,7 @@ namespace sysio { namespace cdt {
 
             return false;
          }
-         
+
          bool defined_in_contract(const clang::ClassTemplateSpecializationDecl* decl) {
 
             if (!contract_class) {
@@ -824,7 +824,7 @@ namespace sysio { namespace cdt {
                   CDT_WARN("codegen_warning", decl->getLocation(), "contract class not found: " + ag.get_contract_name());
                   return false;
             }
-            
+
             for (const clang::Decl* cur_decl : contract_class->decls()) {
                if (is_same_type(cur_decl, decl))
                   return true;
@@ -873,7 +873,7 @@ namespace sysio { namespace cdt {
             }
             if (!is_sysio_contract)
                return true;
-            
+
             auto attr_name = cxx_decl->getSysioContractAttr()->getName();
             auto name = attr_name.empty() ? cxx_decl->getName() : attr_name;
             if (name == llvm::StringRef(ag.get_contract_name())) {

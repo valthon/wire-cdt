@@ -24,7 +24,6 @@ link_directories(${LLVM_LIBRARY_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-
 set(SYSIO_STACK_SIZE 8192)
 
 macro (add_tool name)

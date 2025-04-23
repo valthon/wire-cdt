@@ -785,7 +785,7 @@ class multi_index
       };
 
       using indices_type = typename make_index_tuple<sizeof... (Indices), Indices...>::type;
-      
+
       class make_extractor_tuple {
          template <typename Obj, typename IndicesType, std::size_t... Seq>
          static constexpr auto extractor_tuple(IndicesType, const Obj& obj, std::index_sequence<Seq...>) {

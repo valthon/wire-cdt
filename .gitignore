@@ -49,4 +49,5 @@ __pycache__/
 *.vim
 .idea/
 .ccls-cache/
-CMakeLists.txt.user
+
+tmp/
