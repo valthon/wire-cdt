@@ -5,6 +5,7 @@
 #pragma once
 #include "check.hpp"
 #include "varint.hpp"
+#include <bluegrass/meta/for_each.hpp>
 
 #include <list>
 #include <queue>
@@ -16,13 +17,7 @@
 #include <optional>
 #include <variant>
 
-#include <boost/fusion/algorithm/iteration/for_each.hpp>
-#include <boost/fusion/include/for_each.hpp>
-#include <boost/fusion/adapted/std_tuple.hpp>
-#include <boost/fusion/include/std_tuple.hpp>
-
-#include <boost/mp11/tuple.hpp>
-#include <boost/pfr.hpp>
+#include <string.h>
 
 namespace sysio {
 
@@ -64,7 +59,7 @@ class datastream {
       *  @param s - the number of bytes to read
       *  @return true
       */
-      inline bool read( char* d, size_t s ) {
+      inline bool read( void* d, size_t s ) {
         sysio::check( size_t(_end - _pos) >= (size_t)s, "datastream attempted to read past the end" );
         memcpy( d, _pos, s );
         _pos += s;
@@ -771,6 +766,77 @@ datastream<Stream>& operator >> ( datastream<Stream>& ds, std::vector<T>& v ) {
 }
 
 /**
+ *  Serialize a basic_string<T>
+ *
+ *  @param ds - The stream to write
+ *  @param s - The value to serialize
+ *  @tparam Stream - Type of datastream buffer
+ *  @tparam T - Type of the object contained in the basic_string
+ *  @return datastream<Stream>& - Reference to the datastream
+ */
+template<typename Stream, typename T>
+datastream<Stream>& operator << ( datastream<Stream>& ds, const std::basic_string<T>& s ) {
+   ds << unsigned_int(s.size());
+   if (s.size())
+      ds.write(s.data(), s.size()*sizeof(T));
+   return ds;
+}
+
+/**
+ *  Deserialize a basic_string<T>
+ *
+ *  @param ds - The stream to read
+ *  @param s - The destination for deserialized value
+ *  @tparam Stream - Type of datastream buffer
+ *  @tparam T - Type of the object contained in the basic_string
+ *  @return datastream<Stream>& - Reference to the datastream
+ */
+template<typename Stream, typename T>
+datastream<Stream>& operator >> ( datastream<Stream>& ds, std::basic_string<T>& s ) {
+   unsigned_int v;
+   ds >> v;
+   s.resize(v.value);
+   ds.read(s.data(), s.size()*sizeof(T));
+   return ds;
+}
+
+/**
+ *  Serialize a basic_string<uint8_t>
+ *
+ *  @param ds - The stream to write
+ *  @param s - The value to serialize
+ *  @tparam Stream - Type of datastream buffer
+ *  @tparam T - Type of the object contained in the basic_string
+ *  @return datastream<Stream>& - Reference to the datastream
+ */
+template<typename Stream>
+datastream<Stream>& operator << ( datastream<Stream>& ds, const std::basic_string<uint8_t>& s ) {
+   ds << unsigned_int(s.size());
+   if (s.size())
+      ds.write(s.data(), s.size());
+   return ds;
+}
+
+/**
+ *  Deserialize a basic_string<uint8_t>
+ *
+ *  @param ds - The stream to read
+ *  @param s - The destination for deserialized value
+ *  @tparam Stream - Type of datastream buffer
+ *  @tparam T - Type of the object contained in the basic_string
+ *  @return datastream<Stream>& - Reference to the datastream
+ */
+template<typename Stream>
+datastream<Stream>& operator >> ( datastream<Stream>& ds, std::basic_string<uint8_t>& s ) {
+   unsigned_int v;
+   ds >> v;
+   s.resize(v.value);
+   ds.read(s.data(), s.size());
+   return ds;
+}
+
+
+/**
  *  Serialize a set
  *
  *  @param ds - The stream to write
@@ -864,7 +930,7 @@ datastream<Stream>& operator >> ( datastream<Stream>& ds, std::map<K,V>& m ) {
  */
 template<typename Stream, typename... Args>
 datastream<Stream>& operator<<( datastream<Stream>& ds, const std::tuple<Args...>& t ) {
-   boost::fusion::for_each( t, [&]( const auto& i ) {
+   bluegrass::meta::for_each( t, [&]( const auto& i ) {
        ds << i;
    });
    return ds;
@@ -881,7 +947,7 @@ datastream<Stream>& operator<<( datastream<Stream>& ds, const std::tuple<Args...
  */
 template<typename Stream, typename... Args>
 datastream<Stream>& operator>>( datastream<Stream>& ds, std::tuple<Args...>& t ) {
-   boost::fusion::for_each( t, [&]( auto& i ) {
+   bluegrass::meta::for_each( t, [&]( auto& i ) {
        ds >> i;
    });
    return ds;
@@ -898,7 +964,7 @@ datastream<Stream>& operator>>( datastream<Stream>& ds, std::tuple<Args...>& t )
  */
 template<typename DataStream, typename T, std::enable_if_t<std::is_class<T>::value && _datastream_detail::is_datastream<DataStream>::value>* = nullptr>
 DataStream& operator<<( DataStream& ds, const T& v ) {
-   boost::pfr::for_each_field(v, [&](const auto& field) {
+   bluegrass::meta::for_each_field(v, [&](const auto& field) {
       ds << field;
    });
    return ds;
@@ -915,7 +981,7 @@ DataStream& operator<<( DataStream& ds, const T& v ) {
  */
 template<typename DataStream, typename T, std::enable_if_t<std::is_class<T>::value && _datastream_detail::is_datastream<DataStream>::value>* = nullptr>
 DataStream& operator>>( DataStream& ds, T& v ) {
-   boost::pfr::for_each_field(v, [&](auto& field) {
+   bluegrass::meta::for_each_field(v, [&](auto& field) {
       ds >> field;
    });
    return ds;

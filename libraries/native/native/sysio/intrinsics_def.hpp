@@ -14,6 +14,7 @@
 #include <sysio/security_group.h>
 
 #include <type_traits>
+#include <functional>
 
 namespace sysio { namespace native {
    template <typename... Args, size_t... Is>

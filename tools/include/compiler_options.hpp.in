@@ -6,6 +6,7 @@
 #include <string>
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/Path.h"
+#include "llvm/ADT/ScopeExit.h"
 
 #ifdef ONLY_LD
 #define LD_CAT SysioLdToolCategory
@@ -535,6 +536,23 @@ static void GetLdDefaults(std::vector<std::string>& ldopts) {
    } else {
 #ifdef __APPLE__
       ldopts.insert(ldopts.end(), {"-arch", "x86_64", "-macosx_version_min", "10.13", "-framework", "Foundation", "-framework", "System"});
+
+      llvm::SmallString<256> output;
+      if(llvm::sys::fs::createTemporaryFile("cdtsdkroot", ".path", output))
+         throw std::runtime_error("Failed to create tmp file");
+      auto delete_output = llvm::make_scope_exit([&](){ llvm::sys::fs::remove(output); });
+
+      if(!sysio::cdt::environment::exec_subprogram("xcrun", {"--show-sdk-path"}, true, llvm::None, {output.str()}))
+         throw std::runtime_error("Failed to run xcrun --show-sdk-path");
+
+      auto buf = llvm::MemoryBuffer::getFile(output);
+      if(!buf)
+         throw std::runtime_error("Failed to open tmp file");
+
+      std::string sdkpath = buf.get()->getBuffer();
+      //remove newline
+      sdkpath.resize(sdkpath.size()-1);
+      ldopts.insert(ldopts.end(), {"-syslibroot", sdkpath});
 #endif
       ldopts.emplace_back("-static");
       ldopts.insert(ldopts.end(), {"-lnative_c++", "-lnative_c", "-lnative_sysio", "-lnative", "-lnative_rt"});
@@ -682,7 +700,7 @@ static Options CreateOptions(bool add_defaults=true) {
       copts.emplace_back("-MMD");
    }
    if (!MT_opt.empty()) {
-      copts.emplace_back("-MT "+MT_opt);
+      copts.insert(copts.end(), { "-MT", MT_opt });
    }
    if (finline_functions_opt) {
       copts.emplace_back("-finline-functions");
@@ -835,8 +853,10 @@ static Options CreateOptions(bool add_defaults=true) {
          llvm::sys::path::replace_extension(fn, fnative_opt ? "" : ".wasm");
          output_fn = fn.str();
       } else {
-         ldopts.emplace_back("a.out");
+         output_fn = "a.out";
       }
+      ldopts.emplace_back("-o");
+      ldopts.emplace_back(output_fn);
 #else
       if (inputs.size() == 1) {
          llvm::SmallString<256> fn = llvm::sys::path::filename(inputs[0]);

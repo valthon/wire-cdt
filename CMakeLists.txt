@@ -13,10 +13,10 @@ endif()
 
 project(cdt)
 
-set(VERSION_MAJOR 3)
-set(VERSION_MINOR 1)
-set(VERSION_PATCH 0)
-set(VERSION_SUFFIX "")
+set(VERSION_MAJOR 4)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 1)
+set(VERSION_SUFFIX "") 
 
 if (VERSION_SUFFIX)
    set(VERSION_FULL "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_SUFFIX}")
@@ -30,6 +30,10 @@ option(ENABLE_NATIVE_COMPILER "enable native builds with the CDT toolchain" ON)
 option(ENABLE_TESTS "enable building tests" ON)
 
 include(GNUInstallDirs)
+
+if(NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE "Release")
+endif()
 
 if(NOT TOOLS_BUILD_TYPE)
    set(TOOLS_BUILD_TYPE "Release")
@@ -73,11 +77,11 @@ configure_file(${CMAKE_SOURCE_DIR}/scripts/ricardeos/ricardeos.py ${CMAKE_BINARY
 install(FILES ${CMAKE_BINARY_DIR}/scripts/ricardeos.py DESTINATION ${CDT_INSTALL_PREFIX}/scripts)
 
 # section for package construction
-set(VENDOR "SYSNetworkFoundation")
+set(VENDOR "WireNetwork")
 set(PROJECT_NAME "cdt")
-set(DESC "Toolchain and supporting tools to facilitate C/C++ development of contracts for Antelope blockchains")
-set(URL "https://github.com/AntelopeIO/cdt")
-set(EMAIL "support@eosnetwork.com")
+set(DESC "Toolchain and supporting tools to facilitate C/C++ development of contracts for Wire blockchains")
+set(URL "https://github.com/Wire-Network/wire-cdt")
+set(EMAIL "support@wire.network")
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_package.sh.in ${CMAKE_BINARY_DIR}/packages/generate_package.sh @ONLY)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_deb.sh ${CMAKE_BINARY_DIR}/packages/generate_deb.sh COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/generate_bottle.sh ${CMAKE_BINARY_DIR}/packages/generate_bottle.sh COPYONLY)

@@ -56,10 +56,11 @@ First, ensure that Wire Sysio has been built from source (see [README](https://g
 Then, execute the following command in the same terminal session that you will use to build CDT:
 
 ```sh
-export wire_sysio_DIR=/path/to/wire-sysio/build/lib/cmake/wire-sysio
+export sysio_DIR=/path/to/wire-sysio/build/lib/cmake/sysio
 ```
 
-Now you can continue with the steps to build CDT as described. When you run `cmake` make sure that it does not report `wire-sysio package not found`. If it does, this means CDT was not able to find a build of Wire Sysio at the specified path in `wire_sysio_DIR` and will therefore continue without building the integration tests.
+Now you can continue with the steps to build CDT as described. When you run `cmake` make sure that it does not report `sysio package not found`. If it does, this means CDT was not able to find a build of Wire Sysio at the specified path in `sysio_DIR` and will therefore continue without building the integration tests.
+
 
 ### ccache
 
@@ -93,6 +94,25 @@ You can export the path to the directory to your `PATH` environment variable whi
 Alternatively, you can use CMake toolchain file located in `build/lib/cmake/CDTWasmToolchain.cmake` to compile the contracts in your CMake project, which also allows you to avoid installing CDT globally.
 
 If you would prefer to install CDT globally, see the section [Install CDT](#install-cdt) below.
+
+
+> [!NOTE]
+> If you wish to build with integration tests, you cmake command would be: 
+> `cmake -Dsysio_DIR=/home/svetla/repos/leap-5-rename/leap/build/lib/cmake/sysio ..`
+>
+
+#### Build CDT in Debug mode
+
+To build CDT in debug mode (with debug symbols) you need to add the following flags to cmake command:
+```sh
+cmake -DCMAKE_BUILD_TYPE="Debug" -DTOOLS_BUILD_TYPE="Debug" -DLIBS_BUILD_TYPE="Debug" ..
+```
+
+
+### Generate the `.deb`
+```sh
+cd build/packages && bash ./generate_package.sh deb ubuntu-22.04 amd64
+```
 
 ### Run tests
 

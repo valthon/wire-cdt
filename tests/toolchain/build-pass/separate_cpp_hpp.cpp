@@ -1,6 +1,4 @@
 /*
- * Regression test for https://github.com/SYSIO/sysio.cdt/issues/582
- *
  * Verifies that separate cpp and hpp files can be compile without `-o`
  */
 

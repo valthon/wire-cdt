@@ -27,8 +27,7 @@ target_include_directories(sysio PUBLIC
                                  ${CMAKE_SOURCE_DIR}/libc/cdt-musl/src/crypt
                                  ${CMAKE_SOURCE_DIR}/libc/cdt-musl/arch/eos
                                  ${CMAKE_SOURCE_DIR}/libc++/cdt-libcxx/include
-                                 ${CMAKE_SOURCE_DIR}
-                                 ${CMAKE_SOURCE_DIR}/boost/include)
+                                 ${CMAKE_SOURCE_DIR})
 
 target_link_libraries( sysio c c++ )
 add_custom_command( TARGET sysio POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:sysio> ${BASE_BINARY_DIR}/lib )

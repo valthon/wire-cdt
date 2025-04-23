@@ -8,7 +8,6 @@
 #include <boost/test/included/unit_test.hpp>
 #include <fc/log/logger.hpp>
 #include <sysio/chain/exceptions.hpp>
-#include <Runtime/Runtime.h>
 
 #define BOOST_TEST_STATIC_LINK
 

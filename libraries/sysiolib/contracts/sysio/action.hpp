@@ -4,17 +4,14 @@
  */
 #pragma once
 #include <cstdlib>
+#include <type_traits>
 
 #include "../../core/sysio/serialize.hpp"
 #include "../../core/sysio/datastream.hpp"
 #include "../../core/sysio/name.hpp"
+#include "../../core/sysio/fixed_bytes.hpp"
 #include "../../core/sysio/ignore.hpp"
 #include "../../core/sysio/time.hpp"
-
-#include <boost/preprocessor/variadic/size.hpp>
-#include <boost/preprocessor/variadic/to_tuple.hpp>
-#include <boost/preprocessor/tuple/enum.hpp>
-#include <boost/preprocessor/facilities/overload.hpp>
 
 namespace sysio {
 
@@ -52,7 +49,21 @@ namespace sysio {
 
          __attribute__((sysio_wasm_import))
          uint64_t current_receiver();
+
+         __attribute__((sysio_wasm_import))
+         uint32_t get_code_hash( uint64_t account, uint32_t struct_version, char* result_buffer, size_t buffer_size );
       }
+   };
+
+   struct code_hash_result {
+       unsigned_int struct_version;
+       uint64_t code_sequence;
+       checksum256 code_hash;
+       uint8_t vm_type;
+       uint8_t vm_version;
+
+       CDT_REFLECT(struct_version, code_sequence, code_hash, vm_type, vm_version);
+       SYSLIB_SERIALIZE(code_hash_result, (struct_version)(code_sequence)(code_hash)(vm_type)(vm_version));
    };
 
    /**
@@ -148,6 +159,50 @@ namespace sysio {
    */
    inline name current_receiver() {
      return name{internal_use_do_not_use::current_receiver()};
+   }
+
+   /**
+   *  Get the hash of the code currently published on the given account
+   *  @param account Name of the account to hash the code of
+   *  @param full_result Optional: If a full result struct is desired, a pointer to the struct to populate
+   *  @return The SHA256 hash of the specified account's code
+   */
+   inline checksum256 get_code_hash( name account, code_hash_result* full_result = nullptr ) {
+       if (full_result == nullptr)
+           full_result = (code_hash_result*)alloca(sizeof(code_hash_result));
+       constexpr size_t max_stack_buffer_size = 50;
+
+       // Packed size of this struct will virtually always be less than the struct size; always less after padding
+       auto struct_buffer_size = sizeof(code_hash_result);
+       char* struct_buffer = (char*)alloca(struct_buffer_size);
+
+       using VersionType = decltype(code_hash_result::struct_version);
+       const VersionType STRUCT_VERSION = 0;
+       auto response_size =
+           internal_use_do_not_use::get_code_hash(account.value, STRUCT_VERSION, struct_buffer, struct_buffer_size);
+       // Safety check: in this case, response size should never exceed our buffer, but just in case...
+       bool buffer_on_heap = false;
+       if (response_size > struct_buffer_size) {
+           // Slow path: allocate an adequate buffer and try again
+           // No need to deallocate struct_buffer since it was alloca'd
+           if (response_size > max_stack_buffer_size) {
+               struct_buffer = (char*)malloc(response_size);
+               buffer_on_heap = true;
+           } else {
+               struct_buffer = (char*)alloca(response_size);
+           }
+           internal_use_do_not_use::get_code_hash(account.value, STRUCT_VERSION, struct_buffer, struct_buffer_size);
+       }
+
+       check(unpack<VersionType>(struct_buffer, struct_buffer_size) == STRUCT_VERSION,
+             "Hypervisor returned unexpected code hash struct version");
+       unpack(*full_result, struct_buffer, struct_buffer_size);
+
+       // If struct_buffer is heap allocated, we must free it
+       if (buffer_on_heap)
+           free(struct_buffer);
+
+       return full_result->code_hash;
    }
 
    /**
@@ -570,7 +625,7 @@ namespace sysio {
 #define INLINE_ACTION_SENDER2( CONTRACT_CLASS, NAME )\
 INLINE_ACTION_SENDER3( CONTRACT_CLASS, NAME, ::sysio::name(#NAME) )
 
-#define INLINE_ACTION_SENDER(...) BOOST_PP_OVERLOAD(INLINE_ACTION_SENDER,__VA_ARGS__)(__VA_ARGS__)
+#define INLINE_ACTION_SENDER(...) BLUEGRASS_META_OVERLOAD(INLINE_ACTION_SENDER,__VA_ARGS__)(__VA_ARGS__)
 
 /**
  * Send an inline-action from inside a contract.
@@ -599,5 +654,4 @@ INLINE_ACTION_SENDER3( CONTRACT_CLASS, NAME, ::sysio::name(#NAME) )
  */
 
 #define SEND_INLINE_ACTION( CONTRACT, NAME, ... )\
-INLINE_ACTION_SENDER(std::decay_t<decltype(CONTRACT)>, NAME)( (CONTRACT).get_self(),\
-BOOST_PP_TUPLE_ENUM(BOOST_PP_VARIADIC_SIZE(__VA_ARGS__), BOOST_PP_VARIADIC_TO_TUPLE(__VA_ARGS__)) );
+INLINE_ACTION_SENDER(std::decay_t<decltype(CONTRACT)>, NAME)( (CONTRACT).get_self(),__VA_ARGS__)

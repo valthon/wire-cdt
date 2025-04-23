@@ -155,7 +155,7 @@ struct generation_utils {
 
 
    inline void set_contract_name( const std::string& cn ) { contract_name = cn; }
-   inline std::string get_contract_name()const { return contract_name; }
+   inline const std::string& get_contract_name()const { return contract_name; }
    static inline std::string get_parsed_contract_name() { return parsed_contract_name; }
    inline void set_resource_dirs( const std::vector<std::string>& rd ) {
       llvm::SmallString<128> cwd;
@@ -274,30 +274,30 @@ struct generation_utils {
    }
 
    static inline bool is_sysio_contract( const clang::CXXMethodDecl* decl, const std::string& cn ) {
-      std::string name = "";
+      llvm::StringRef name;
       if (decl->isSysioContract())
          name = decl->getSysioContractAttr()->getName();
       else if (decl->getParent()->isSysioContract())
          name = decl->getParent()->getSysioContractAttr()->getName();
       if (name.empty()) {
-         name = decl->getParent()->getName().str();
+         name = decl->getParent()->getName();
       }
-      parsed_contract_name = name;
+      parsed_contract_name = name.str();
       return cn == parsed_contract_name;
    }
 
    static inline bool is_sysio_contract( const clang::CXXRecordDecl* decl, const std::string& cn ) {
-      std::string name = "";
+      llvm::StringRef name;
       auto pd = llvm::dyn_cast<clang::CXXRecordDecl>(decl->getParent());
       if (decl->isSysioContract()) {
-         auto nm = decl->getSysioContractAttr()->getName().str();
-         name = nm.empty() ? decl->getName().str() : nm;
+         auto nm = decl->getSysioContractAttr()->getName();
+         name = nm.empty() ? decl->getName() : nm;
       }
       else if (pd && pd->isSysioContract()) {
-         auto nm = pd->getSysioContractAttr()->getName().str();
-         name = nm.empty() ? pd->getName().str() : nm;
+         auto nm = pd->getSysioContractAttr()->getName();
+         name = nm.empty() ? pd->getName() : nm;
       }
-      parsed_contract_name = name;
+      parsed_contract_name = name.str();
       return cn == parsed_contract_name;
    }
 
@@ -370,6 +370,8 @@ struct generation_utils {
          if (auto ce = llvm::dyn_cast<clang::CastExpr>(std::get<clang::Expr*>(arg))) {
             auto il = llvm::dyn_cast<clang::IntegerLiteral>(ce->getSubExpr());
             return std::to_string(il->getValue().getLimitedValue());
+         } else if (auto ce = llvm::dyn_cast<clang::ConstantExpr>(std::get<clang::Expr*>(arg))) {
+             return ce->getResultAsAPSInt().toString(10);
          }
       } else {
          return std::get<llvm::APSInt>(arg).toString(10);

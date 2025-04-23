@@ -1,10 +1,8 @@
 #pragma once
 #include "action.hpp"
 
-#include <boost/fusion/adapted/std_tuple.hpp>
-#include <boost/fusion/include/std_tuple.hpp>
-
-#include <boost/mp11/tuple.hpp>
+#include <bluegrass/meta/preprocessor.hpp>
+#include <tuple>
 
 namespace sysio {
 
@@ -85,7 +83,7 @@ namespace sysio {
          ((&inst)->*func)( a... );
       };
 
-      boost::mp11::tuple_apply( f2, args );
+      std::apply( f2, args );
       if ( max_stack_buffer_size < size ) {
          free(buffer);
       }
@@ -95,14 +93,14 @@ namespace sysio {
   /// @cond INTERNAL
 
  // Helper macro for SYSIO_DISPATCH_INTERNAL
- #define SYSIO_DISPATCH_INTERNAL( r, OP, elem ) \
-    case sysio::name( BOOST_PP_STRINGIZE(elem) ).value: \
+ #define SYSIO_DISPATCH_INTERNAL( OP, elem ) \
+    case sysio::name( BLUEGRASS_META_STRINGIZE(elem) ).value: \
        sysio::execute_action( sysio::name(receiver), sysio::name(code), &OP::elem ); \
        break;
 
  // Helper macro for SYSIO_DISPATCH
  #define SYSIO_DISPATCH_HELPER( TYPE,  MEMBERS ) \
-    BOOST_PP_SEQ_FOR_EACH( SYSIO_DISPATCH_INTERNAL, TYPE, MEMBERS )
+    BLUEGRASS_META_FOREACH_SEQ( SYSIO_DISPATCH_INTERNAL, TYPE, MEMBERS )
 
 /// @endcond
 
